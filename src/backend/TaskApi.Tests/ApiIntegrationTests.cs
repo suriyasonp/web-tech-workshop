@@ -1,6 +1,8 @@
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +13,11 @@ namespace TaskApi.Tests;
 
 public sealed class ApiIntegrationTests
 {
+    private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web)
+    {
+        Converters = { new JsonStringEnumConverter() }
+    };
+
     [Fact]
     public async Task Instructor_CanCompleteCrud_AndDataPersistsAcrossRestart()
     {
@@ -27,7 +34,7 @@ public sealed class ApiIntegrationTests
                     new TaskRequest("Integration test task", "Created by the API test",
                         TaskItemStatus.ToDo, TaskPriority.High, new DateOnly(2026, 9, 13)));
                 Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
-                var created = await createResponse.Content.ReadFromJsonAsync<TaskResponse>();
+                var created = await createResponse.Content.ReadFromJsonAsync<TaskResponse>(JsonOptions);
                 Assert.NotNull(created);
                 createdId = created.Id;
 
@@ -35,7 +42,7 @@ public sealed class ApiIntegrationTests
                     new TaskRequest(created.Title, created.Description,
                         TaskItemStatus.Done, TaskPriority.Medium, created.DueDate));
                 updateResponse.EnsureSuccessStatusCode();
-                var updated = await updateResponse.Content.ReadFromJsonAsync<TaskResponse>();
+                var updated = await updateResponse.Content.ReadFromJsonAsync<TaskResponse>(JsonOptions);
                 Assert.Equal(TaskItemStatus.Done, updated?.Status);
             }
 
@@ -44,7 +51,7 @@ public sealed class ApiIntegrationTests
                 using var client = restartedFactory.CreateClient();
                 await SignInAsync(client, "instructor");
 
-                var tasks = await client.GetFromJsonAsync<List<TaskResponse>>("/api/tasks");
+                var tasks = await client.GetFromJsonAsync<List<TaskResponse>>("/api/tasks", JsonOptions);
                 Assert.Contains(tasks!, task => task.Id == createdId && task.Status == TaskItemStatus.Done);
 
                 var deleteResponse = await client.DeleteAsync($"/api/tasks/{createdId}");
