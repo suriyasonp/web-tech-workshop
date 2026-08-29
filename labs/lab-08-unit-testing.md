@@ -1,19 +1,22 @@
-# Lab 08 — Unit Testing
+# Lab 08 — Backend Testing
 
 ## Objective
-Write focused backend tests.
+Protect validation, service behavior, and the real API flow.
 
-## Suggested Cases
-- Creating a valid task succeeds
-- Missing title is rejected
-- Updating an unknown task fails
-- Deleting an existing task succeeds
+## Starting Point
+Checkout `lab-08-start`.
 
-## Checkpoint
-Tests run from the command line.
+## Steps
+1. Create the xUnit test project.
+2. Test valid and invalid task requests.
+3. Test create, unknown update, and delete with in-memory SQLite.
+4. Add API integration tests for login, CRUD, role restriction, and restart persistence.
 
-## Challenge
-Add one boundary or negative case.
+## Validation
+Run `dotnet test src/backend/WebTechWorkshop.sln`; all seven tests pass.
+
+## Recovery
+Checkout `lab-08-solution` and run one test class at a time with `--filter`.
 
 ## Expected Result
-Participants understand Arrange–Act–Assert and test-case design.
+The backend contract is safe for Day 2 integration.

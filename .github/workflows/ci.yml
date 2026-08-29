@@ -7,6 +7,13 @@ on:
     branches: [main, workshop-materials]
 
 jobs:
+  materials:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate workshop files and lab contracts
+        run: bash scripts/validate-materials.sh
+
   backend:
     runs-on: ubuntu-latest
     steps:

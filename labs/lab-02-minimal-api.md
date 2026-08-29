@@ -1,19 +1,22 @@
 # Lab 02 — .NET Minimal API
 
 ## Objective
-Create and run an ASP.NET Core Minimal API.
+Create and run the backend skeleton.
+
+## Starting Point
+Checkout `lab-02-start` and work under `src/backend`.
 
 ## Steps
-1. Create a backend project under `src/backend`.
-2. Run the application.
-3. Inspect `Program.cs`.
-4. Add Swagger/OpenAPI support if needed.
+1. Create a .NET 10 web project named `TaskApi`.
+2. Add OpenAPI support and map `GET /health`.
+3. Configure the development URL as `http://localhost:5080`.
+4. Run `dotnet run --project TaskApi`.
 
-## Checkpoint
-The API starts without errors.
+## Validation
+`curl http://localhost:5080/health` returns HTTP 200 and `{"status":"ok"}`.
 
-## Challenge
-Move one configuration value to `appsettings.json`.
+## Recovery
+Checkout `lab-02-solution` and inspect `TaskApi.csproj`, `Program.cs`, and `launchSettings.json`.
 
 ## Expected Result
-A runnable backend skeleton.
+A runnable Minimal API with a visible health endpoint.

@@ -1,19 +1,22 @@
-# Lab 06 — Validation & Error Handling
+# Lab 06 — Validation and Error Handling
 
 ## Objective
-Make the API predictable and safe for clients.
+Return predictable failures that a frontend can use.
 
-## Add
-- Required title validation
-- Clear 400 responses
-- 404 handling
-- Consistent error response shape
+## Starting Point
+Checkout `lab-06-start`.
 
-## Checkpoint
-Invalid requests return meaningful status codes.
+## Steps
+1. Require a non-blank title.
+2. Limit title to 120 and description to 1000 characters.
+3. Validate status and priority enum values.
+4. Return validation problems for HTTP 400 and problem details for 404/500.
 
-## Challenge
-Create a reusable error DTO.
+## Validation
+POST an empty title and confirm HTTP 400 with `errors.Title`; request an unknown id and confirm HTTP 404.
+
+## Recovery
+Checkout `lab-06-solution` and inspect `TaskRequestValidator` plus endpoint responses.
 
 ## Expected Result
-Frontend clients can react to API failures consistently.
+The API failure contract is consistent and actionable.

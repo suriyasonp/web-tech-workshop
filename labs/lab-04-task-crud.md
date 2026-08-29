@@ -1,20 +1,23 @@
 # Lab 04 — Task CRUD
 
 ## Objective
-Implement CRUD behavior before persistence.
+Implement the complete REST shape before persistence.
 
-## Core Endpoints
-- GET /api/tasks
-- GET /api/tasks/{id}
-- POST /api/tasks
-- PUT /api/tasks/{id}
-- DELETE /api/tasks/{id}
+## Starting Point
+Checkout `lab-04-start`.
 
-## Checkpoint
-All CRUD operations work against an in-memory collection.
+## Steps
+1. Add GET collection and GET-by-id routes.
+2. Add POST with HTTP 201 and a `Location` header.
+3. Add PUT and DELETE routes.
+4. Move collection logic behind `TaskService`.
+5. Exercise every route with `TaskApi.http`.
 
-## Challenge
-Separate endpoint code from business logic using a service.
+## Validation
+Create → read → update → delete completes and an unknown id returns HTTP 404.
+
+## Recovery
+Checkout `lab-04-solution` and trace each route into `TaskService`.
 
 ## Expected Result
-A complete REST-shaped Task API.
+A complete REST-shaped API with endpoint code separated from task behavior.

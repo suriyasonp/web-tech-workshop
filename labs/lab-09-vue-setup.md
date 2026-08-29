@@ -1,19 +1,23 @@
-# Lab 09 — Vue + TypeScript Setup
+# Lab 09 — Vue and TypeScript Setup
 
 ## Objective
-Create the frontend application.
+Create a clean frontend that builds before features are added.
+
+## Starting Point
+Checkout `lab-09-start`.
 
 ## Steps
-1. Create a Vue + TypeScript project with Vite.
-2. Run the dev server.
-3. Inspect the generated structure.
-4. Remove unnecessary starter content.
+1. Create a Vue + TypeScript Vite project under `src/frontend`.
+2. Install Vue Router and Axios.
+3. Remove starter components and styles.
+4. Define typed Task, status, priority, and login contracts.
+5. Add `.env.example` with the API base URL.
 
-## Checkpoint
-The Vue app renders locally.
+## Validation
+`npm ci`, `npm run dev`, and `npm run build` succeed.
 
-## Challenge
-Add a typed `Task` interface.
+## Recovery
+Checkout `lab-09-solution` and compare `package.json`, `main.ts`, and `types.ts`.
 
 ## Expected Result
-A clean frontend starter.
+A typed Vue starter with a repeatable dependency install.

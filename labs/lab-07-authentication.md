@@ -1,20 +1,23 @@
-# Lab 07 — Authentication & Authorization
+# Lab 07 — Authentication and Authorization
 
 ## Objective
-Understand login flow, JWT, and protected endpoints.
+Protect Task routes with JWT identity and role permission.
+
+## Starting Point
+Checkout `lab-07-start`.
 
 ## Steps
-1. Create a simple login endpoint.
-2. Issue a JWT.
-3. Configure authentication middleware.
-4. Protect selected Task endpoints.
-5. Add a role claim for authorization discussion.
+1. Configure JWT Bearer validation.
+2. Implement `POST /api/auth/login`.
+3. Add name and role claims to the token.
+4. Require authentication for `/api/tasks`.
+5. Require the Instructor role for DELETE.
 
-## Checkpoint
-Unauthenticated access is rejected for protected routes.
+## Validation
+Anonymous GET returns 401; Instructor can delete; Student receives 403.
 
-## Challenge
-Protect one route by role.
+## Recovery
+Checkout `lab-07-solution` and use the demo accounts documented in `src/backend/README.md`.
 
 ## Expected Result
-Participants can explain authentication vs authorization.
+Participants can distinguish authentication (who) from authorization (may do what).

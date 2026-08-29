@@ -1,16 +1,22 @@
 # Lab 00 — Environment Check
 
 ## Objective
-Confirm every participant can run the workshop toolchain.
+Confirm that the workshop toolchain is installed before coding begins.
 
-## Check
-Run the commands from `docs/setup-guide.md`.
+## Starting Point
+Checkout `lab-00-start`.
 
-## Checkpoint
-All required commands return a valid version.
+## Steps
+1. Open the repository in VS Code.
+2. Run `git --version`, `dotnet --version`, `node --version`, and `npm --version`.
+3. Confirm .NET reports major version 10 and Node reports version 20 or newer.
+4. Run `bash scripts/validate-materials.sh`.
 
-## Challenge
-Create a folder named `ku-web-tech-workshop` and open it in VS Code.
+## Validation
+Every command succeeds and the material validator reports `Workshop materials validated`.
+
+## Recovery
+Checkout `lab-00-solution` and compare the setup guide with the failed command.
 
 ## Expected Result
-The machine is ready before coding begins.
+The machine is ready and the participant knows where to find recovery instructions.

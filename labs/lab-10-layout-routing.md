@@ -1,21 +1,23 @@
-# Lab 10 — Layout & Routing
+# Lab 10 — Layout and Routing
 
 ## Objective
-Build the application shell.
+Build a stable application shell and client routes.
 
-## Add
-- Header
-- Sidebar/navigation
-- Main content area
-- Router
-- Login route
-- Tasks route
+## Starting Point
+Checkout `lab-10-start`.
 
-## Checkpoint
-Navigation changes views without a full page reload.
+## Steps
+1. Add routes for Login, Tasks, and Not Found.
+2. Redirect `/` to `/tasks`.
+3. Create `AppShell` with identity and logout controls.
+4. Add a navigation guard using authentication state.
+5. Confirm responsive behavior at narrow width.
 
-## Challenge
-Add a Not Found route.
+## Validation
+Navigation changes views without reload; unauthenticated `/tasks` redirects to `/login`; unknown routes show 404.
+
+## Recovery
+Checkout `lab-10-solution` and inspect `router/index.ts` and `AppShell.vue`.
 
 ## Expected Result
-A reusable application layout.
+A reusable shell with protected client-side navigation.

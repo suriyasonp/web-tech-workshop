@@ -1,21 +1,23 @@
 # Lab 13 — Task Management UI
 
 ## Objective
-Build the main workshop feature.
+Build the main full-stack user workflow.
 
-## Features
-- Task list / data table
-- Create task dialog/form
-- Edit task
-- Delete task
-- Status and priority display
-- API error feedback
+## Starting Point
+Checkout `lab-13-start`.
 
-## Checkpoint
-CRUD actions update both UI and backend.
+## Steps
+1. Render the task table and status filter.
+2. Build a reusable create/edit form.
+3. Connect create, update, and delete to `taskService`.
+4. Show API validation errors.
+5. Hide Delete for Student while keeping API authorization as the real control.
 
-## Challenge
-Add filtering by status.
+## Validation
+Instructor completes CRUD and Student cannot delete; UI and backend remain consistent after refresh.
+
+## Recovery
+Checkout `lab-13-solution` and inspect `TasksView.vue` plus `TaskForm.vue`.
 
 ## Expected Result
-A functional Task Management application.
+A usable Task Management feature with role-aware behavior.

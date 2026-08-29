@@ -1,37 +1,18 @@
-# Presentation Plan
+# Workshop Presentation Decks
 
-Use one module per topic rather than one oversized deck.
+The workshop uses two concise, editable PowerPoint decks. Full code stays in the repository and labs.
 
-## Day 1 Modules
+- [Day 1 — Foundation and Backend](Day-1-Foundation-and-Backend.pptx)
+- [Day 2 — Frontend, Integration, and Delivery](Day-2-Frontend-and-Delivery.pptx)
 
-1. Workshop Overview
-2. Software Development in the Real World
-3. Agile Development
-4. AI-Assisted Software Development
-5. Development Environment
-6. Requirement to Architecture
-7. REST API Design
-8. .NET 10 Minimal API
-9. Database & EF Core
-10. Authentication & Authorization
-11. Unit Testing
+## Teaching Pattern
 
-## Day 2 Modules
+Each module follows the same transition:
 
-12. UI/UX with Generative AI
-13. Vue.js + TypeScript
-14. UI Framework
-15. Vue Project Setup
-16. Frontend Architecture
-17. Application Layout
-18. Axios Integration
-19. Frontend Authentication
-20. Final Build & Retrospective
+**Problem → concept → visual model → small demo → lab handoff → checkpoint review**
 
-## Slide Pattern
+Speaker notes contain demo prompts, lab transitions, and official sources for externally grounded concepts.
 
-Each module should use:
+## Rehearsal
 
-**Problem → Concept → Diagram → Small example → Demo → Lab handoff**
-
-Keep full code in GitHub labs, not in slides.
+Use `instructor/rehearsal-checklist.md`. The decks are 16:9 and were rendered slide-by-slide, inspected visually, and checked for overflow before commit.
