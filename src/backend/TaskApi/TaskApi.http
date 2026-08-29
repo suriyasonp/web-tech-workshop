@@ -1,0 +1,14 @@
+@host = http://localhost:5080
+
+GET {{host}}/health
+
+### Login (copy token below)
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{ "username": "instructor", "password": "Workshop2026!" }
+
+###
+@token = paste-token-here
+GET {{host}}/api/tasks
+Authorization: Bearer {{token}}

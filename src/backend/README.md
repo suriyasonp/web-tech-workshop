@@ -1,12 +1,28 @@
-# Backend Workspace
+# Backend — Task Management API
 
-Target stack:
+Runnable .NET 10 Minimal API with EF Core, SQLite, JWT authentication, role-aware authorization, validation, and tests.
 
-- .NET 10
-- ASP.NET Core Minimal API
-- Entity Framework Core
-- SQLite
-- JWT authentication
-- Unit tests
+## Run
 
-Work mode should create the runnable solution here, then derive lab checkpoints from the final working implementation.
+```bash
+cd src/backend
+dotnet restore
+dotnet run --project TaskApi
+```
+
+The API listens on `http://localhost:5080`. OpenAPI JSON is available at `http://localhost:5080/openapi/v1.json` in Development.
+
+| Username | Password | Permission |
+|---|---|---|
+| `instructor` | `Workshop2026!` | Full CRUD |
+| `student` | `Workshop2026!` | CRUD except delete |
+
+These accounts and the JWT key are intentionally simple for local workshop use only.
+
+## Test
+
+```bash
+dotnet test
+```
+
+SQLite is created as `src/backend/TaskApi/tasks.db` on first run and seeded with two tasks.
