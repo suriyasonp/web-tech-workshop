@@ -1,36 +1,32 @@
 # KU Web Technology Development Workshop
 
-Hands-on workshop for Kasetsart University, Sriracha Campus.
+Delivery-ready foundation for a hands-on workshop at Kasetsart University, Sriracha Campus.
 
 **Dates:** 12–13 September 2026  
 **Time:** 08:30–18:00  
-**Application:** Task Management System
+**Continuous application:** Task Management System
 
-## Workshop Flow
+## Quick Start
 
-Real-world software development → Agile + AI → Architecture → REST API → .NET backend → EF Core → Authentication → Testing → Vue + TypeScript → API integration → Full-stack application → Demo & retrospective
+Follow the [final application run guide](docs/run-guide.md), or start with the [environment setup](docs/setup-guide.md).
 
 ## Repository Map
 
 - [Workshop agenda](docs/agenda.md)
 - [Architecture](docs/architecture.md)
 - [Environment setup](docs/setup-guide.md)
-- [Slide plan](slides/README.md)
+- [Run and verification guide](docs/run-guide.md)
 - [Hands-on labs](labs/README.md)
+- [Lab-to-code map](labs/implementation-map.md)
 - [Instructor guide](instructor/README.md)
-- [Backend starter](src/backend/README.md)
-- [Frontend starter](src/frontend/README.md)
-- [Workshop checklist](CHECKLIST.md)
+- [Final demo script](instructor/demo-script.md)
+- [Fallback procedure](instructor/fallback-procedure.md)
+- [Backend application](src/backend/README.md)
+- [Frontend application](src/frontend/README.md)
+- [Definition of Done](CHECKLIST.md)
 
-## Lab Sequence
+## Workshop Flow
 
-Day 1: Lab 00–08  
-Day 2: Lab 09–14
+Real-world development → Agile + AI → architecture → REST → .NET Minimal API → EF Core → JWT → testing → Vue + TypeScript → Axios → full-stack CRUD → demo and retrospective.
 
-Each lab follows: **Objective → Starting Point → Steps → Checkpoint → Challenge → Expected Result**.
-
-## Branch Strategy
-
-This branch contains the workshop-material foundation. Working code checkpoints should later be created as tags or branches such as:
-
-`lab-04-start`, `lab-04-solution`, `checkpoint-backend-ready`, `checkpoint-frontend-ready`, `checkpoint-final`.
+Working milestones are exposed as `checkpoint-backend-ready`, `checkpoint-auth-ready`, `checkpoint-frontend-ready`, and later `checkpoint-final`. Lab-specific start/solution checkpoints remain part of final delivery preparation.
