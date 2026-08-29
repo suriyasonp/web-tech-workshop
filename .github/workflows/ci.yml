@@ -36,3 +36,46 @@ jobs:
       - name: Build
         working-directory: src/frontend
         run: npm run build
+
+  end-to-end:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: src/frontend/package-lock.json
+      - name: Build backend
+        run: dotnet build src/backend/WebTechWorkshop.sln --configuration Release
+      - name: Install frontend and browser
+        working-directory: src/frontend
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Start applications
+        run: |
+          dotnet run --project src/backend/TaskApi --configuration Release --no-build > /tmp/task-api.log 2>&1 &
+          npm --prefix src/frontend run dev -- --host 127.0.0.1 > /tmp/task-ui.log 2>&1 &
+          for attempt in {1..60}; do
+            curl --fail --silent http://127.0.0.1:5080/health >/dev/null && curl --fail --silent http://127.0.0.1:5173 >/dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/task-api.log
+          cat /tmp/task-ui.log
+          exit 1
+      - name: Run browser workshop flow
+        working-directory: src/frontend
+        run: npx playwright test
+      - name: Upload screenshots and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: workshop-e2e-evidence
+          path: |
+            resources/screenshots
+            src/frontend/playwright-report
+            src/frontend/test-results
