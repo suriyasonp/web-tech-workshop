@@ -1,12 +1,12 @@
 # Workshop Material Definition of Done
 
 ## Application
-- [ ] Final backend runs from a clean clone (CI verification pending)
+- [x] Final backend restores, builds, and tests from a clean CI checkout
 - [x] Final frontend installs and builds from a clean workspace
-- [ ] Login works end-to-end
-- [ ] CRUD works end-to-end
-- [ ] SQLite persistence works after restart
-- [ ] Backend tests pass in CI
+- [x] Login works through the API integration test
+- [x] CRUD works through the API integration test
+- [x] SQLite persistence works across an application restart
+- [x] Backend unit and integration tests pass in CI
 
 ## Labs
 - [x] Lab documents 00–14 created
