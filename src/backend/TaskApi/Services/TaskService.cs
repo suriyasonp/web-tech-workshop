@@ -8,7 +8,7 @@ namespace TaskApi.Services;
 public sealed class TaskService(AppDbContext db)
 {
     public async Task<IReadOnlyList<TaskResponse>> GetAllAsync(CancellationToken cancellationToken) =>
-        await db.Tasks.AsNoTracking().OrderByDescending(task => task.CreatedAt)
+        await db.Tasks.AsNoTracking().OrderByDescending(task => task.Id)
             .Select(task => new TaskResponse(task.Id, task.Title, task.Description, task.Status,
                 task.Priority, task.DueDate, task.CreatedAt)).ToListAsync(cancellationToken);
 
