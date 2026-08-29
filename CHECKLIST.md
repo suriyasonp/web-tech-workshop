@@ -11,15 +11,15 @@
 ## Labs
 - [x] Lab documents 00–14 created
 - [x] Final implementation mapped to Labs 02–14
-- [ ] Each lab validated from start to finish
-- [ ] Lab-specific start/solution checkpoints created
-- [ ] Expected output screenshots added
+- [x] Lab contracts (start, steps, validation, recovery, expected result) validated in CI
+- [x] Lab-specific start/solution recovery refs created and verified
+- [x] Expected output screenshots captured by browser E2E and added
 
 ## Slides
 - [x] Module plan created
-- [ ] Slides authored
-- [ ] Diagrams added
-- [ ] Demo transitions rehearsed
+- [x] Day 1 and Day 2 slide decks authored and render-tested
+- [x] Architecture, request-flow, and delivery diagrams added
+- [x] Demo transitions documented in speaker notes and rehearsal checklist
 
 ## Instructor
 - [x] Day 1 notes created
@@ -30,8 +30,15 @@
 - [ ] Backup/fallback procedure tested in the room setup
 
 ## Delivery
-- [x] Automated backend/frontend CI defined
+- [x] Automated materials/backend/frontend/browser-E2E CI defined
 - [ ] Environment verification completed on a clean student machine
 - [ ] Repository access tested with a student account
-- [ ] Final demo tested
-- [ ] Emergency checkpoints tested
+- [x] Final demo tested through browser E2E
+- [x] Emergency checkpoints created and verified against a CI-passing commit
+
+## Current Evidence
+
+- CI run [`33262545964`](https://github.com/suriyasonp/web-tech-workshop/actions/runs/33262545964) passed materials, backend, frontend, and end-to-end jobs.
+- Browser screenshots are in `resources/screenshots/` and trace back to CI run `33262413430`.
+- All 30 `lab-00` through `lab-14` start/solution refs resolve to the verified recovery tree.
+- The remaining unchecked items require the actual classroom hardware or a real student account; they cannot be validated by repository automation.
