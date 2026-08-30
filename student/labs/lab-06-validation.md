@@ -4,7 +4,7 @@
 Return predictable failures that a frontend can use.
 
 ## Starting Point
-Checkout `lab-06-start`.
+Continue from your Lab 05 backend under `student/starter/backend`.
 
 ## Steps
 1. Require a non-blank title.
@@ -16,7 +16,7 @@ Checkout `lab-06-start`.
 POST an empty title and confirm HTTP 400 with `errors.Title`; request an unknown id and confirm HTTP 404.
 
 ## Recovery
-Checkout `lab-06-solution` and inspect `TaskRequestValidator` plus endpoint responses.
+Inspect `TaskRequestValidator` and endpoint responses under `instructor/solutions/backend/`.
 
 ## Expected Result
 The API failure contract is consistent and actionable.

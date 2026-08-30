@@ -7,7 +7,7 @@ Vue 3 + TypeScript + Vite frontend with Vue Router, Axios service layer, JWT ses
 Start the backend first, then:
 
 ```bash
-cd src/frontend
+cd instructor/solutions/frontend
 cp .env.example .env
 npm install
 npm run dev

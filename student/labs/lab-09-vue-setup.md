@@ -4,10 +4,10 @@
 Create a clean frontend that builds before features are added.
 
 ## Starting Point
-Checkout `lab-09-start`.
+Keep the completed backend and create the frontend under `student/starter/frontend`.
 
 ## Steps
-1. Create a Vue + TypeScript Vite project under `src/frontend`.
+1. Create a Vue + TypeScript Vite project under `student/starter/frontend`.
 2. Install Vue Router and Axios.
 3. Remove starter components and styles.
 4. Define typed Task, status, priority, and login contracts.
@@ -17,7 +17,7 @@ Checkout `lab-09-start`.
 `npm ci`, `npm run dev`, and `npm run build` succeed.
 
 ## Recovery
-Checkout `lab-09-solution` and compare `package.json`, `main.ts`, and `types.ts`.
+Compare `package.json`, `main.ts`, and `types.ts` with `instructor/solutions/frontend/`.
 
 ## Expected Result
 A typed Vue starter with a repeatable dependency install.

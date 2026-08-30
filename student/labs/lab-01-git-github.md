@@ -4,7 +4,7 @@
 Practice a recoverable branch → commit → push workflow.
 
 ## Starting Point
-Checkout `lab-01-start`, then create a personal branch: `git switch -c student/<name>`.
+Start from the latest `main`, then create a personal practice branch: `git switch -c student/<name>`.
 
 ## Steps
 1. Add a short learning goal to a new Markdown file.
@@ -17,7 +17,7 @@ Checkout `lab-01-start`, then create a personal branch: `git switch -c student/<
 The personal branch exists remotely and the working tree is clean.
 
 ## Recovery
-Use `lab-01-solution` to return to a known repository state; do not delete the repository.
+Commit or copy unfinished work, then return to `main` with `git switch main`; do not delete the repository.
 
 ## Expected Result
 Participants can save work and explain branch, commit, remote, and HEAD.

@@ -23,7 +23,7 @@
 - Open Day 1 or Day 2 deck in presentation mode.
 - Start the API and frontend.
 - Reset `tasks.db` and complete the demo once.
-- Open `checkpoint-final` and the matching lab solution branch.
+- Open `main`, the matching lab, and `instructor/solutions/`.
 - Keep `TaskApi.http`, CI evidence, and the fallback procedure ready.
 
 ## Transition Rehearsal
@@ -32,5 +32,5 @@
 2. Use the slide’s concept or diagram.
 3. Demonstrate one small code slice.
 4. State the lab objective and completion check.
-5. Set a timebox and announce the recovery ref.
+5. Set a timebox and point out the matching instructor solution path.
 6. Review the checkpoint before moving on.

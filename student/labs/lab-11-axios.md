@@ -4,7 +4,7 @@
 Keep HTTP configuration behind a typed service layer.
 
 ## Starting Point
-Checkout `lab-11-start`.
+Continue from your Lab 10 frontend and the completed backend under `student/starter/`.
 
 ## Steps
 1. Create one Axios instance using `VITE_API_BASE_URL`.
@@ -17,7 +17,7 @@ Checkout `lab-11-start`.
 The task list is loaded from the backend and a stopped backend produces visible feedback.
 
 ## Recovery
-Checkout `lab-11-solution` and trace TasksView → taskService → api instance.
+Trace TasksView → taskService → api instance under `instructor/solutions/frontend/`.
 
 ## Expected Result
 Components depend on application services rather than raw HTTP calls.

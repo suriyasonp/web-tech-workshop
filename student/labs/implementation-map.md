@@ -1,6 +1,6 @@
 # Lab-to-Implementation Map
 
-The final code under `src/` is the source of truth when preparing and validating each lab.
+The final code under `instructor/solutions/` is the source of truth when preparing, demonstrating, and recovering each lab. Students build their own cumulative version under `student/starter/`.
 
 | Lab | Final implementation reference | Completion check |
 |---|---|---|
@@ -15,7 +15,7 @@ The final code under `src/` is the source of truth when preparing and validating
 | 11 | `services/api.ts`, `taskService.ts` | Task list comes from backend |
 | 12 | `authService.ts`, `stores/auth.ts`, route guard | Refresh preserves a valid session |
 | 13 | `TasksView.vue`, `TaskForm.vue` | Full CRUD updates UI and API |
-| 14 | `docs/run-guide.md` | Final demo path completes without manual data repair |
+| 14 | `../../docs/run-guide.md` | Final demo path completes without manual data repair |
 
 ## API Contract Used by Labs
 

@@ -17,5 +17,5 @@ Target: 12–15 minutes. Keep one browser window, one API terminal, and one fron
 
 - Run backend tests and frontend build.
 - Start both applications and complete the demo once.
-- Keep `checkpoint-backend-ready`, `checkpoint-auth-ready`, and `checkpoint-frontend-ready` available.
+- Keep `main`, `instructor/solutions/`, and the fallback procedure available.
 - Keep a pre-created `tasks.db` only as an offline fallback; normally let migrations create it.

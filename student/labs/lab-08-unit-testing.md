@@ -4,7 +4,7 @@
 Protect validation, service behavior, and the real API flow.
 
 ## Starting Point
-Checkout `lab-08-start`.
+Continue from your Lab 07 backend under `student/starter/backend`.
 
 ## Steps
 1. Create the xUnit test project.
@@ -13,10 +13,10 @@ Checkout `lab-08-start`.
 4. Add API integration tests for login, CRUD, role restriction, and restart persistence.
 
 ## Validation
-Run `dotnet test src/backend/WebTechWorkshop.sln`; all seven tests pass.
+Run `dotnet test student/starter/backend/WebTechWorkshop.sln`; all seven tests pass.
 
 ## Recovery
-Checkout `lab-08-solution` and run one test class at a time with `--filter`.
+Compare with `instructor/solutions/backend/TaskApi.Tests/` and run one test class at a time with `--filter`.
 
 ## Expected Result
 The backend contract is safe for Day 2 integration.

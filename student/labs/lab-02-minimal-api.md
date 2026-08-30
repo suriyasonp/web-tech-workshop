@@ -4,7 +4,7 @@
 Create and run the backend skeleton.
 
 ## Starting Point
-Checkout `lab-02-start` and work under `src/backend`.
+Use `main` and create the backend under `student/starter/backend`.
 
 ## Steps
 1. Create a .NET 10 web project named `TaskApi`.
@@ -16,7 +16,7 @@ Checkout `lab-02-start` and work under `src/backend`.
 `curl http://localhost:5080/health` returns HTTP 200 and `{"status":"ok"}`.
 
 ## Recovery
-Checkout `lab-02-solution` and inspect `TaskApi.csproj`, `Program.cs`, and `launchSettings.json`.
+Compare `TaskApi.csproj`, `Program.cs`, and `launchSettings.json` with `instructor/solutions/backend/TaskApi/`.
 
 ## Expected Result
 A runnable Minimal API with a visible health endpoint.

@@ -4,7 +4,7 @@
 Protect Task routes with JWT identity and role permission.
 
 ## Starting Point
-Checkout `lab-07-start`.
+Continue from your Lab 06 backend under `student/starter/backend`.
 
 ## Steps
 1. Configure JWT Bearer validation.
@@ -17,7 +17,7 @@ Checkout `lab-07-start`.
 Anonymous GET returns 401; Instructor can delete; Student receives 403.
 
 ## Recovery
-Checkout `lab-07-solution` and use the demo accounts documented in `src/backend/README.md`.
+Compare with `instructor/solutions/backend/` and use the demo accounts documented in its `README.md`.
 
 ## Expected Result
 Participants can distinguish authentication (who) from authorization (may do what).

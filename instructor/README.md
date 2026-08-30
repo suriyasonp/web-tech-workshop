@@ -12,12 +12,9 @@
 Mark content as **Must cover**, **Can shorten**, or **Can skip if behind**.
 
 ## Recovery Strategy
-Use checkpoints so participants do not get stuck for the rest of the workshop.
 
-Recommended future refs:
-- `checkpoint-backend-ready`
-- `checkpoint-auth-ready`
-- `checkpoint-frontend-ready`
-- `checkpoint-final`
+Keep participants on `main`. Save their current work, compare the blocked section with `solutions/`, and bring across only the minimum needed files so they can continue with the next lab.
+
+The complete backend and frontend are under `solutions/`; presentation decks are under `slides/`.
 
 See [Day 1](day-1.md), [Day 2](day-2.md), and [Common errors](common-errors.md).

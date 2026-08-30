@@ -4,7 +4,7 @@
 Build a stable application shell and client routes.
 
 ## Starting Point
-Checkout `lab-10-start`.
+Continue from your Lab 09 frontend under `student/starter/frontend`.
 
 ## Steps
 1. Add routes for Login, Tasks, and Not Found.
@@ -17,7 +17,7 @@ Checkout `lab-10-start`.
 Navigation changes views without reload; unauthenticated `/tasks` redirects to `/login`; unknown routes show 404.
 
 ## Recovery
-Checkout `lab-10-solution` and inspect `router/index.ts` and `AppShell.vue`.
+Inspect `router/index.ts` and `AppShell.vue` under `instructor/solutions/frontend/`.
 
 ## Expected Result
 A reusable shell with protected client-side navigation.

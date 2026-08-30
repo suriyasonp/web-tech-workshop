@@ -4,7 +4,7 @@
 Implement the complete REST shape before persistence.
 
 ## Starting Point
-Checkout `lab-04-start`.
+Continue from your Lab 03 backend under `student/starter/backend`.
 
 ## Steps
 1. Add GET collection and GET-by-id routes.
@@ -17,7 +17,7 @@ Checkout `lab-04-start`.
 Create → read → update → delete completes and an unknown id returns HTTP 404.
 
 ## Recovery
-Checkout `lab-04-solution` and trace each route into `TaskService`.
+Trace the matching routes into `TaskService` under `instructor/solutions/backend/`.
 
 ## Expected Result
 A complete REST-shaped API with endpoint code separated from task behavior.

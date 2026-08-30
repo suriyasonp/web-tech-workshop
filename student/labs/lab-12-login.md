@@ -4,7 +4,7 @@
 Complete the browser authentication flow.
 
 ## Starting Point
-Checkout `lab-12-start`.
+Continue from your Lab 11 application under `student/starter/`.
 
 ## Steps
 1. Build the Login view.
@@ -18,7 +18,7 @@ Checkout `lab-12-start`.
 Login reaches `/tasks`, refresh preserves a valid session, and logout returns to `/login`.
 
 ## Recovery
-Checkout `lab-12-solution` and inspect `authService`, `authStore`, and the router guard.
+Inspect `authService`, `authStore`, and the router guard under `instructor/solutions/frontend/`.
 
 ## Expected Result
 A working authenticated frontend with understandable workshop token handling.

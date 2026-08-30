@@ -5,7 +5,7 @@ Runnable .NET 10 Minimal API with EF Core, SQLite, JWT authentication, role-awar
 ## Run
 
 ```bash
-cd src/backend
+cd instructor/solutions/backend
 dotnet restore
 dotnet run --project TaskApi
 ```
@@ -25,4 +25,4 @@ These accounts and the JWT key are intentionally simple for local workshop use o
 dotnet test
 ```
 
-SQLite is created as `src/backend/TaskApi/tasks.db` on first run and seeded with two tasks.
+SQLite is created as `instructor/solutions/backend/TaskApi/tasks.db` on first run and seeded with two tasks.

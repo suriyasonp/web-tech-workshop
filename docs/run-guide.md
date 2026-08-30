@@ -5,7 +5,7 @@ Use two terminals. The commands assume the repository root as the starting direc
 ## 1. Backend
 
 ```bash
-cd src/backend
+cd instructor/solutions/backend
 dotnet restore
 dotnet run --project TaskApi
 ```
@@ -15,7 +15,7 @@ Verify `http://localhost:5080/health` returns `{"status":"ok"}`.
 ## 2. Frontend
 
 ```bash
-cd src/frontend
+cd instructor/solutions/frontend
 cp .env.example .env
 npm install
 npm run dev
@@ -36,8 +36,8 @@ Open `http://localhost:5173`, then use `instructor` / `Workshop2026!` for full C
 ## 4. Automated Verification
 
 ```bash
-dotnet test src/backend/WebTechWorkshop.sln
-cd src/frontend
+dotnet test instructor/solutions/backend/WebTechWorkshop.sln
+cd instructor/solutions/frontend
 npm ci
 npm run build
 ```
@@ -49,4 +49,4 @@ GitHub Actions runs the same backend build/tests and frontend production build o
 - Port already in use: stop the old process or update both `launchSettings.json` and `.env`.
 - Browser reports CORS: confirm the frontend is on `http://localhost:5173`.
 - HTTP 401: log in again; the demo token expires after 120 minutes.
-- Database schema issue: stop the API, remove `src/backend/TaskApi/tasks.db`, then restart to apply migrations and seed data.
+- Database schema issue: stop the API, remove only `instructor/solutions/backend/TaskApi/tasks.db`, then restart to apply migrations and seed data.

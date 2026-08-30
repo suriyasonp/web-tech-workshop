@@ -2,10 +2,10 @@
 
 ## Student Recovery
 
-1. Commit or copy the student’s current work.
+1. Commit or copy the student’s current work under `student/starter/`.
 2. Identify the last completed lab.
-3. Compare with the matching solution checkpoint when available.
-4. For a blocked room, move everyone to the nearest milestone checkpoint and continue.
+3. Compare only the blocked part with `instructor/solutions/`.
+4. For a blocked room, copy the relevant instructor solution files into a temporary recovery folder, then continue on `main`.
 
 ## Service Failure
 
@@ -16,6 +16,6 @@
 
 ## Data Reset
 
-Stop the API, delete only `src/backend/TaskApi/tasks.db`, and restart. Migrations recreate the database and seed two tasks.
+Stop the API, delete only `instructor/solutions/backend/TaskApi/tasks.db`, and restart. Migrations recreate the database and seed two tasks.
 
 Never ask students to delete the repository when a targeted reset is sufficient.

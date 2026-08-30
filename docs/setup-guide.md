@@ -8,7 +8,7 @@ Complete this before 12 September 2026. The workshop uses local development only
 - Git 2.40 or newer
 - GitHub account with repository access
 - .NET 10 SDK
-- Node.js 20 LTS or newer and npm
+- Node.js 24 and npm (matching CI)
 - Chrome, Edge, or another modern browser
 
 Recommended VS Code extensions: C# Dev Kit, Vue Official, REST Client, and GitHub Pull Requests.
@@ -27,7 +27,7 @@ Then clone and validate the materials:
 ```bash
 git clone https://github.com/suriyasonp/web-tech-workshop.git
 cd web-tech-workshop
-git switch workshop-materials
+git switch main
 bash scripts/validate-materials.sh
 ```
 
@@ -36,21 +36,21 @@ bash scripts/validate-materials.sh
 Backend:
 
 ```bash
-dotnet restore src/backend/WebTechWorkshop.sln
-dotnet test src/backend/WebTechWorkshop.sln
+dotnet restore instructor/solutions/backend/WebTechWorkshop.sln
+dotnet test instructor/solutions/backend/WebTechWorkshop.sln
 ```
 
 Frontend:
 
 ```bash
-cd src/frontend
+cd instructor/solutions/frontend
 npm ci
 npm run build
 ```
 
 ## Network Requirements
 
-The machine must reach GitHub, NuGet, and npm during setup. During delivery, the prepared lock file, recovery refs, and repository archive reduce dependency on live network access.
+The machine must reach GitHub, NuGet, and npm during setup. During delivery, the prepared lock file, instructor solution, and repository archive reduce dependency on live network access.
 
 ## Ports
 

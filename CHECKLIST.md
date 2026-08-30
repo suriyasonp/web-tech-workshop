@@ -12,7 +12,7 @@
 - [x] Lab documents 00–14 created
 - [x] Final implementation mapped to Labs 02–14
 - [x] Lab contracts (start, steps, validation, recovery, expected result) validated in CI
-- [x] Lab-specific start/solution recovery refs created and verified
+- [x] Main-based student flow and instructor solution recovery documented
 - [x] Expected output screenshots captured by browser E2E and added
 
 ## Slides
@@ -34,11 +34,11 @@
 - [ ] Environment verification completed on a clean student machine
 - [ ] Repository access tested with a student account
 - [x] Final demo tested through browser E2E
-- [x] Emergency checkpoints created and verified against a CI-passing commit
+- [x] Instructor solution verified against a CI-passing commit
 
 ## Current Evidence
 
 - CI run [`33262545964`](https://github.com/suriyasonp/web-tech-workshop/actions/runs/33262545964) passed materials, backend, frontend, and end-to-end jobs.
-- Browser screenshots are in `resources/screenshots/` and trace back to CI run `33262413430`.
-- All 30 `lab-00` through `lab-14` start/solution refs resolve to the verified recovery tree.
+- Browser screenshots are in `student/resources/screenshots/` and trace back to CI run `33262413430`.
+- Legacy `lab-*`, `checkpoint-*`, and `workshop-materials` branches are retained for history; the active workshop flow uses `main`.
 - The remaining unchecked items require the actual classroom hardware or a real student account; they cannot be validated by repository automation.

@@ -2,9 +2,9 @@ name: Workshop CI
 
 on:
   push:
-    branches: [main, workshop-materials]
+    branches: [main]
   pull_request:
-    branches: [main, workshop-materials]
+    branches: [main]
 
 jobs:
   materials:
@@ -22,11 +22,11 @@ jobs:
         with:
           dotnet-version: 10.0.x
       - name: Restore
-        run: dotnet restore src/backend/WebTechWorkshop.sln
+        run: dotnet restore instructor/solutions/backend/WebTechWorkshop.sln
       - name: Build
-        run: dotnet build src/backend/WebTechWorkshop.sln --configuration Release --no-restore
+        run: dotnet build instructor/solutions/backend/WebTechWorkshop.sln --configuration Release --no-restore
       - name: Test
-        run: dotnet test src/backend/WebTechWorkshop.sln --configuration Release --no-build
+        run: dotnet test instructor/solutions/backend/WebTechWorkshop.sln --configuration Release --no-build
 
   frontend:
     runs-on: ubuntu-latest
@@ -36,12 +36,12 @@ jobs:
         with:
           node-version: 24
           cache: npm
-          cache-dependency-path: src/frontend/package-lock.json
+          cache-dependency-path: instructor/solutions/frontend/package-lock.json
       - name: Install
-        working-directory: src/frontend
+        working-directory: instructor/solutions/frontend
         run: npm ci
       - name: Build
-        working-directory: src/frontend
+        working-directory: instructor/solutions/frontend
         run: npm run build
 
   end-to-end:
@@ -55,18 +55,18 @@ jobs:
         with:
           node-version: 24
           cache: npm
-          cache-dependency-path: src/frontend/package-lock.json
+          cache-dependency-path: instructor/solutions/frontend/package-lock.json
       - name: Build backend
-        run: dotnet build src/backend/WebTechWorkshop.sln --configuration Release
+        run: dotnet build instructor/solutions/backend/WebTechWorkshop.sln --configuration Release
       - name: Install frontend and browser
-        working-directory: src/frontend
+        working-directory: instructor/solutions/frontend
         run: |
           npm ci
           npx playwright install --with-deps chromium
       - name: Start applications
         run: |
-          dotnet run --project src/backend/TaskApi --configuration Release --no-build > /tmp/task-api.log 2>&1 &
-          npm --prefix src/frontend run dev -- --host 127.0.0.1 > /tmp/task-ui.log 2>&1 &
+          dotnet run --project instructor/solutions/backend/TaskApi --configuration Release --no-build > /tmp/task-api.log 2>&1 &
+          npm --prefix instructor/solutions/frontend run dev -- --host 127.0.0.1 > /tmp/task-ui.log 2>&1 &
           for attempt in {1..60}; do
             curl --fail --silent http://127.0.0.1:5080/health >/dev/null && curl --fail --silent http://127.0.0.1:5173 >/dev/null && exit 0
             sleep 1
@@ -75,7 +75,7 @@ jobs:
           cat /tmp/task-ui.log
           exit 1
       - name: Run browser workshop flow
-        working-directory: src/frontend
+        working-directory: instructor/solutions/frontend
         run: npx playwright test
       - name: Upload screenshots and report
         if: always()
@@ -83,6 +83,6 @@ jobs:
         with:
           name: workshop-e2e-evidence
           path: |
-            resources/screenshots
-            src/frontend/playwright-report
-            src/frontend/test-results
+            student/resources/screenshots
+            instructor/solutions/frontend/playwright-report
+            instructor/solutions/frontend/test-results

@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test'
 import { mkdir } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 
-const screenshotDirectory = fileURLToPath(new URL('../../../resources/screenshots/', import.meta.url))
+const screenshotDirectory = fileURLToPath(new URL('../../../../student/resources/screenshots/', import.meta.url))
 
 test.beforeAll(async () => {
   await mkdir(screenshotDirectory, { recursive: true })

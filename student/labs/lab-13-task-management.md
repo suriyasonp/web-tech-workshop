@@ -4,7 +4,7 @@
 Build the main full-stack user workflow.
 
 ## Starting Point
-Checkout `lab-13-start`.
+Continue from your Lab 12 application under `student/starter/`.
 
 ## Steps
 1. Render the task table and status filter.
@@ -17,7 +17,7 @@ Checkout `lab-13-start`.
 Instructor completes CRUD and Student cannot delete; UI and backend remain consistent after refresh.
 
 ## Recovery
-Checkout `lab-13-solution` and inspect `TasksView.vue` plus `TaskForm.vue`.
+Inspect `TasksView.vue` and `TaskForm.vue` under `instructor/solutions/frontend/`.
 
 ## Expected Result
 A usable Task Management feature with role-aware behavior.

@@ -4,7 +4,7 @@
 Prove that the full application is repeatable and demo-ready.
 
 ## Starting Point
-Checkout `lab-14-start`.
+Continue from your Lab 13 application under `student/starter/` on `main`.
 
 ## Steps
 1. Run backend tests and frontend production build.
@@ -18,7 +18,7 @@ Checkout `lab-14-start`.
 All three CI jobs pass and screenshots show login, task list, created task, and completed task.
 
 ## Recovery
-Checkout `lab-14-solution` or `checkpoint-final` and repeat only the failed segment.
+Compare only the failed segment with `instructor/solutions/`, then repeat that segment in your student application.
 
 ## Expected Result
 A clean-clone, test-backed, browser-verified workshop application.
