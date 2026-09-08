@@ -52,11 +52,11 @@ git status
 
 Open the repository on GitHub and select your branch. Do not open a PR for this practice change unless the instructor requests it.
 
-## Check your work
+## Validation
 
 Your branch exists on GitHub, the commit is visible, and `git status` says the working tree is clean.
 
-## Troubleshooting / instructor recovery
+## Recovery
 
 If the branch already exists, use `student/<name>-2`. For an authentication error, use [GitHub's official authentication guidance](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-authentication-to-github). Never delete or reclone the repository to fix an uncommitted change.
 
