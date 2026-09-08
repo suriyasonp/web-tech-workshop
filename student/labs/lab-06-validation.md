@@ -3,7 +3,7 @@
 **Duration:** 40 minutes  
 **Goal:** Give clients consistent 400, 404, and 500 responses.
 
-## Starting point
+## Starting Point
 
 Continue from the persistent API built in Lab 05.
 
@@ -43,7 +43,7 @@ Add requests to `TaskApi.http`:
 3. GET `/api/tasks/999999`.
 4. POST a valid task to confirm the happy path still works.
 
-## Check your work
+## Validation
 
 Blank title returns 400 with `errors.Title`; missing ID returns 404; the API remains running after bad input.
 
@@ -51,7 +51,7 @@ Blank title returns 400 with `errors.Title`; missing ID returns 404; the API rem
 
 Validation errors are expected client mistakes; exceptions are unexpected failures. They should not share an ambiguous response.
 
-## Troubleshooting / instructor recovery
+## Recovery
 
 Set a breakpoint in the validator and send one invalid request. Inspect `TaskRequestValidator` and endpoint responses under `instructor/solutions/backend/`.
 
