@@ -9,7 +9,33 @@ Continue in `student/starter/backend/TaskApi` from Lab 02.
 
 ## Exercise 1 — Define the contract
 
-Create folders `Models` and `Contracts`. Add `Models/TaskItemStatus.cs` with values `Todo`, `InProgress`, `Done`; add `Models/TaskPriority.cs` with `Low`, `Medium`, `High`.
+Create folders `Models` and `Contracts`.
+
+Create `Models/TaskItemStatus.cs`:
+
+```csharp
+namespace TaskApi.Models;
+
+public enum TaskItemStatus
+{
+    Todo,
+    InProgress,
+    Done
+}
+```
+
+Create `Models/TaskPriority.cs`:
+
+```csharp
+namespace TaskApi.Models;
+
+public enum TaskPriority
+{
+    Low,
+    Medium,
+    High
+}
+```
 
 Create `Contracts/TaskResponse.cs`:
 
@@ -23,7 +49,29 @@ public sealed record TaskResponse(
 
 ## Exercise 2 — Map the collection route
 
-In `Program.cs`, create two sample `TaskResponse` values and map:
+In `Program.cs`, create two sample `TaskResponse` values:
+
+```csharp
+var sampleTasks = new[]
+{
+    new TaskResponse(
+        1,
+        "Prepare workshop",
+        "Review backend lab material",
+        "InProgress",
+        "High",
+        new DateOnly(2026, 9, 12)),
+    new TaskResponse(
+        2,
+        "Test API",
+        null,
+        "Todo",
+        "Medium",
+        null)
+};
+```
+
+Map the endpoint:
 
 ```csharp
 app.MapGet("/api/tasks", () => Results.Ok(sampleTasks))
@@ -43,7 +91,11 @@ GET {{host}}/api/tasks
 Accept: application/json
 ```
 
-Use **Send Request** in VS Code REST Client, or use `curl http://localhost:5080/api/tasks`.
+Use **Send Request** in VS Code REST Client, or use:
+
+```bash
+curl http://localhost:5080/api/tasks
+```
 
 ## Validation
 
