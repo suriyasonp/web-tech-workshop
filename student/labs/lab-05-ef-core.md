@@ -32,9 +32,10 @@ public sealed class TaskItem
     public int Id { get; set; }
     public required string Title { get; set; }
     public string? Description { get; set; }
-    public string Status { get; set; } = "Todo";
-    public string Priority { get; set; } = "Medium";
+    public TaskItemStatus Status { get; set; } = TaskItemStatus.ToDo;
+    public TaskPriority Priority { get; set; } = TaskPriority.Medium;
     public DateOnly? DueDate { get; set; }
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
 }
 ```
 
@@ -57,8 +58,8 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options)
         {
             entity.Property(x => x.Title).IsRequired().HasMaxLength(120);
             entity.Property(x => x.Description).HasMaxLength(1000);
-            entity.Property(x => x.Status).HasMaxLength(30);
-            entity.Property(x => x.Priority).HasMaxLength(30);
+            entity.Property(x => x.Status).HasConversion<string>().HasMaxLength(30);
+            entity.Property(x => x.Priority).HasConversion<string>().HasMaxLength(30);
         });
     }
 }
@@ -86,12 +87,28 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<TaskService>();
 ```
 
-Change `TaskService` methods to async EF queries such as:
+Change `TaskService` to receive `AppDbContext` and use async EF queries:
 
 ```csharp
-public async Task<List<TaskItem>> GetAllAsync(CancellationToken ct) =>
-    await _db.Tasks.AsNoTracking().OrderBy(x => x.Id).ToListAsync(ct);
+public sealed class TaskService(AppDbContext db)
+{
+    public async Task<IReadOnlyList<TaskResponse>> GetAllAsync(
+        CancellationToken cancellationToken) =>
+        await db.Tasks
+            .AsNoTracking()
+            .OrderByDescending(task => task.Id)
+            .Select(task => new TaskResponse(
+                task.Id,
+                task.Title,
+                task.Description,
+                task.Status,
+                task.Priority,
+                task.DueDate))
+            .ToListAsync(cancellationToken);
+}
 ```
+
+Convert the remaining create, update, and delete methods to use `SaveChangesAsync`.
 
 ## Exercise 3 — Create and apply the schema
 
