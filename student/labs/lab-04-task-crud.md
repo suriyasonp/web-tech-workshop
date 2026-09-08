@@ -7,24 +7,24 @@
 
 Continue from Lab 03 in `student/starter/backend/TaskApi`.
 
-## Exercise 1 — Add request DTOs and service
+## Exercise 1 — Add request DTO and service
 
-Create `Contracts/CreateTaskRequest.cs` and `UpdateTaskRequest.cs` with title, description, status, priority, and optional due date. Create `Services/TaskService.cs` using a private `List<TaskResponse>` and an incrementing ID.
-
-Example request DTO:
+Create `Contracts/TaskRequest.cs`:
 
 ```csharp
+using TaskApi.Models;
+
 namespace TaskApi.Contracts;
 
-public sealed record CreateTaskRequest(
-    string Title,
+public sealed record TaskRequest(
+    string? Title,
     string? Description,
-    string Status,
-    string Priority,
+    TaskItemStatus Status,
+    TaskPriority Priority,
     DateOnly? DueDate);
 ```
 
-A minimal in-memory service can start like this:
+Create `Services/TaskService.cs` using a private `List<TaskResponse>` and an incrementing ID:
 
 ```csharp
 using TaskApi.Contracts;
@@ -41,19 +41,46 @@ public sealed class TaskService
     public TaskResponse? GetById(int id) =>
         _tasks.FirstOrDefault(task => task.Id == id);
 
-    public TaskResponse Create(CreateTaskRequest request)
+    public TaskResponse Create(TaskRequest request)
     {
         var task = new TaskResponse(
-            _nextId++, request.Title, request.Description,
-            request.Status, request.Priority, request.DueDate);
+            _nextId++,
+            request.Title!.Trim(),
+            request.Description,
+            request.Status,
+            request.Priority,
+            request.DueDate);
 
         _tasks.Add(task);
         return task;
     }
+
+    public TaskResponse? Update(int id, TaskRequest request)
+    {
+        var index = _tasks.FindIndex(task => task.Id == id);
+        if (index < 0) return null;
+
+        var updated = new TaskResponse(
+            id,
+            request.Title!.Trim(),
+            request.Description,
+            request.Status,
+            request.Priority,
+            request.DueDate);
+
+        _tasks[index] = updated;
+        return updated;
+    }
+
+    public bool Delete(int id)
+    {
+        var task = GetById(id);
+        return task is not null && _tasks.Remove(task);
+    }
 }
 ```
 
-Add `Update` and `Delete` using the same list. Register the service in `Program.cs`:
+Register it in `Program.cs`:
 
 ```csharp
 builder.Services.AddSingleton<TaskService>();
@@ -84,14 +111,22 @@ tasks.MapGet("/{id:int}", (int id, TaskService service) =>
         ? Results.Ok(task)
         : Results.NotFound());
 
-tasks.MapPost("/", (CreateTaskRequest request, TaskService service) =>
+tasks.MapPost("/", (TaskRequest request, TaskService service) =>
 {
     var created = service.Create(request);
     return Results.Created($"/api/tasks/{created.Id}", created);
 });
-```
 
-Add PUT and DELETE following the same pattern.
+tasks.MapPut("/{id:int}", (int id, TaskRequest request, TaskService service) =>
+    service.Update(id, request) is { } updated
+        ? Results.Ok(updated)
+        : Results.NotFound());
+
+tasks.MapDelete("/{id:int}", (int id, TaskService service) =>
+    service.Delete(id)
+        ? Results.NoContent()
+        : Results.NotFound());
+```
 
 ## Exercise 3 — Run the complete flow
 
@@ -106,7 +141,7 @@ Content-Type: application/json
 {
   "title": "Finish Lab 04",
   "description": "Build CRUD endpoints",
-  "status": "Todo",
+  "status": "ToDo",
   "priority": "High",
   "dueDate": "2026-09-12"
 }
