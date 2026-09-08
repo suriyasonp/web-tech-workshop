@@ -22,17 +22,76 @@ If the tool already exists, run `dotnet tool update --global dotnet-ef --version
 
 ## Exercise 2 — Model and configure storage
 
-Create `Models/TaskItem.cs` and `Data/AppDbContext.cs`. Configure required title, maximum lengths 120/1000, status, priority, and due date.
+Create `Models/TaskItem.cs`:
+
+```csharp
+namespace TaskApi.Models;
+
+public sealed class TaskItem
+{
+    public int Id { get; set; }
+    public required string Title { get; set; }
+    public string? Description { get; set; }
+    public string Status { get; set; } = "Todo";
+    public string Priority { get; set; } = "Medium";
+    public DateOnly? DueDate { get; set; }
+}
+```
+
+Create `Data/AppDbContext.cs`:
+
+```csharp
+using Microsoft.EntityFrameworkCore;
+using TaskApi.Models;
+
+namespace TaskApi.Data;
+
+public sealed class AppDbContext(DbContextOptions<AppDbContext> options)
+    : DbContext(options)
+{
+    public DbSet<TaskItem> Tasks => Set<TaskItem>();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<TaskItem>(entity =>
+        {
+            entity.Property(x => x.Title).IsRequired().HasMaxLength(120);
+            entity.Property(x => x.Description).HasMaxLength(1000);
+            entity.Property(x => x.Status).HasMaxLength(30);
+            entity.Property(x => x.Priority).HasMaxLength(30);
+        });
+    }
+}
+```
 
 Add to `appsettings.Development.json`:
 
 ```json
-"ConnectionStrings": {
-  "DefaultConnection": "Data Source=tasks.db"
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Data Source=tasks.db"
+  }
 }
 ```
 
-Register `AppDbContext` with `UseSqlite` in `Program.cs`. Change `TaskService` to scoped lifetime and async EF queries.
+Register EF Core in `Program.cs`:
+
+```csharp
+using Microsoft.EntityFrameworkCore;
+using TaskApi.Data;
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<TaskService>();
+```
+
+Change `TaskService` methods to async EF queries such as:
+
+```csharp
+public async Task<List<TaskItem>> GetAllAsync(CancellationToken ct) =>
+    await _db.Tasks.AsNoTracking().OrderBy(x => x.Id).ToListAsync(ct);
+```
 
 ## Exercise 3 — Create and apply the schema
 
