@@ -18,22 +18,89 @@ export const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: { Accept: 'application/json' },
 })
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => Promise.reject(error),
+)
 ```
 
-Add a response interceptor that rejects errors unchanged for now. Lab 12 will handle 401 globally.
+Lab 12 will extend this client to handle authentication centrally.
 
 ## Exercise 2 — Create typed Task operations
 
-Create `src/services/taskService.ts` with async methods: `getAll`, `create`, `update`, and `remove`. Type every request and response using `src/types.ts`; components must not call Axios directly.
+Create `src/services/taskService.ts`:
+
+```ts
+import { api } from './api'
+import type { Task, TaskRequest } from '../types'
+
+export const taskService = {
+  async getAll(): Promise<Task[]> {
+    const response = await api.get<Task[]>('/api/tasks')
+    return response.data
+  },
+
+  async create(request: TaskRequest): Promise<Task> {
+    const response = await api.post<Task>('/api/tasks', request)
+    return response.data
+  },
+
+  async update(id: number, request: TaskRequest): Promise<Task> {
+    const response = await api.put<Task>(`/api/tasks/${id}`, request)
+    return response.data
+  },
+
+  async remove(id: number): Promise<void> {
+    await api.delete(`/api/tasks/${id}`)
+  },
+}
+```
+
+Components must not call Axios directly.
 
 ## Exercise 3 — Render server data
 
-In `TasksView.vue`, add `tasks`, `loading`, and `error` state. Load tasks in `onMounted` with `try/catch/finally`. Render:
+In `TasksView.vue`:
 
-- loading message while pending;
-- error alert when request fails;
-- empty state when the array is empty;
-- a list/table when tasks exist.
+```vue
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import { taskService } from '../services/taskService'
+import type { Task } from '../types'
+
+const tasks = ref<Task[]>([])
+const loading = ref(false)
+const error = ref('')
+
+async function loadTasks() {
+  loading.value = true
+  error.value = ''
+
+  try {
+    tasks.value = await taskService.getAll()
+  } catch {
+    error.value = 'Unable to load tasks.'
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(loadTasks)
+</script>
+
+<template>
+  <p v-if="loading">Loading tasks…</p>
+  <p v-else-if="error" role="alert">{{ error }}</p>
+  <p v-else-if="tasks.length === 0">No tasks yet.</p>
+
+  <ul v-else>
+    <li v-for="task in tasks" :key="task.id">
+      {{ task.title }} — {{ task.status }}
+    </li>
+  </ul>
+</template>
+```
 
 ## Validation
 
