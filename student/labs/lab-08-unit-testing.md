@@ -3,7 +3,7 @@
 **Duration:** 55 minutes  
 **Goal:** Protect validation, service behavior, authentication, and CRUD with repeatable tests.
 
-## Starting point
+## Starting Point
 
 Continue from Lab 07 in `student/starter/backend`.
 
@@ -34,11 +34,11 @@ dotnet test WebTechWorkshop.sln
 dotnet test WebTechWorkshop.sln --filter FullyQualifiedName~Validation
 ```
 
-## Check your work
+## Validation
 
 All seven workshop tests pass. A deliberately broken assertion fails with a useful test name; undo it and rerun.
 
-## Troubleshooting / instructor recovery
+## Recovery
 
 Keep the SQLite in-memory connection open for the test lifetime. Compare with `instructor/solutions/backend/TaskApi.Tests/` and run one class using `--filter`.
 
