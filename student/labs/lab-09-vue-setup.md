@@ -3,7 +3,7 @@
 **Duration:** 40 minutes  
 **Goal:** Scaffold a typed frontend that develops and builds cleanly.
 
-## Starting point
+## Starting Point
 
 Keep the completed backend. From repository root create `student/starter/frontend`.
 
@@ -51,11 +51,11 @@ npm run build
 
 Commit both `package.json` and `package-lock.json`; do not commit `node_modules` or `.env.local`.
 
-## Check your work
+## Validation
 
 Development server opens, TypeScript shows no error, and production build succeeds.
 
-## Troubleshooting / instructor recovery
+## Recovery
 
 Run commands in `student/starter/frontend`. If dependencies are inconsistent, remove only `node_modules` and run `npm ci`. Compare `package.json`, `main.ts`, and `types.ts` with `instructor/solutions/frontend/`.
 
