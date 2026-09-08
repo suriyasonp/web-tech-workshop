@@ -5,7 +5,7 @@
 
 > Workshop note: demo credentials and a symmetric key are for local learning only. Production systems use an identity provider, protected secrets, hashed passwords, HTTPS, and key rotation.
 
-## Starting point
+## Starting Point
 
 Continue from Lab 06.
 
@@ -37,11 +37,11 @@ Apply `.RequireAuthorization()` to the Task route group. Apply `.RequireAuthoriz
 3. Send `Authorization: Bearer <token>`; GET → 200, DELETE → 204/404.
 4. Repeat with Student; DELETE → 403.
 
-## Check your work
+## Validation
 
 You can demonstrate the difference: 401 means no valid identity; 403 means known identity without permission.
 
-## Troubleshooting / instructor recovery
+## Recovery
 
 Check issuer, audience, signing key, token expiry, and the exact `Bearer ` prefix. Compare with `instructor/solutions/backend/` and its demo-account README.
 
