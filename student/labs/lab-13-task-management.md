@@ -1,23 +1,46 @@
-# Lab 13 — Task Management UI
+# Lab 13 — Build the Task Management UI
 
-## Objective
-Build the main full-stack user workflow.
+**Duration:** 75 minutes  
+**Goal:** Complete role-aware create, read, update, and delete from the browser.
 
-## Starting Point
-Continue from your Lab 12 application under `student/starter/`.
+## Starting point
 
-## Steps
-1. Render the task table and status filter.
-2. Build a reusable create/edit form.
-3. Connect create, update, and delete to `taskService`.
-4. Show API validation errors.
-5. Hide Delete for Student while keeping API authorization as the real control.
+Continue from Lab 12 and login as Instructor.
 
-## Validation
-Instructor completes CRUD and Student cannot delete; UI and backend remain consistent after refresh.
+## Exercise 1 — List and filter
 
-## Recovery
-Inspect `TasksView.vue` and `TaskForm.vue` under `instructor/solutions/frontend/`.
+Render title, status, priority, and due date. Add filter buttons for All, Todo, In Progress, and Done. Use a computed value; filtering must not mutate the server array.
 
-## Expected Result
-A usable Task Management feature with role-aware behavior.
+## Exercise 2 — Create a reusable form
+
+Create `src/components/TaskForm.vue` with title, description, status, priority, and due date. Accept initial values for edit and emit one typed submit event. Add labels, required state, maximum lengths, disabled/busy state, and Cancel.
+
+## Exercise 3 — Connect mutations
+
+Use `taskService` to:
+
+1. create and append/reload;
+2. open edit with a copy, update, then replace/reload;
+3. confirm before delete, delete, then remove/reload.
+
+Prevent double submission. Keep the dialog open if the API rejects input.
+
+## Exercise 4 — Display API validation
+
+For HTTP 400 Validation Problem responses, show field messages near the form and a short summary. Keep network/server failures as page or toast errors.
+
+## Exercise 5 — Apply role-aware presentation
+
+Show Delete only when `authStore.role === 'Instructor'`. Login as Student and confirm it is hidden. Remember: the API's 403 rule is security; hiding a button only improves UX.
+
+## Check your work
+
+Instructor completes CRUD. Data remains after refresh. Student can view/edit as designed but cannot delete, including a manually sent DELETE request.
+
+## Troubleshooting / instructor recovery
+
+Use Network request/response bodies to compare the Vue payload with API DTOs. Inspect `TasksView.vue` and `TaskForm.vue` in `instructor/solutions/frontend/`.
+
+## Expected result
+
+A usable full-stack Task Management workflow.
