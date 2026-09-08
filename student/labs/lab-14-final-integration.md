@@ -3,7 +3,7 @@
 **Duration:** 45 minutes  
 **Goal:** Prove the project works from clean dependencies through the complete user flow.
 
-## Starting point
+## Starting Point
 
 Continue from Lab 13. Save work with a commit before final verification.
 
@@ -57,11 +57,11 @@ git push
 
 Open the GitHub Actions run and wait for material validation, backend, and frontend/E2E jobs.
 
-## Check your work
+## Validation
 
 Local gates pass, the acceptance journey passes, and GitHub Actions is green.
 
-## Troubleshooting / instructor recovery
+## Recovery
 
 Identify the first failing layer: material → compile → unit/integration → frontend build → browser flow. Compare only that segment with `instructor/solutions/`, repeat the failed check, then rerun the full gate.
 
