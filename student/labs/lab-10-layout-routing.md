@@ -1,23 +1,47 @@
-# Lab 10 — Layout and Routing
+# Lab 10 — Build Layout and Client-side Routing
 
-## Objective
-Build a stable application shell and client routes.
+**Duration:** 45 minutes  
+**Goal:** Create an application shell and protected browser routes.
 
-## Starting Point
-Continue from your Lab 09 frontend under `student/starter/frontend`.
+## Starting point
 
-## Steps
-1. Add routes for Login, Tasks, and Not Found.
-2. Redirect `/` to `/tasks`.
-3. Create `AppShell` with identity and logout controls.
-4. Add a navigation guard using authentication state.
-5. Confirm responsive behavior at narrow width.
+Continue in `student/starter/frontend` from Lab 09.
 
-## Validation
-Navigation changes views without reload; unauthenticated `/tasks` redirects to `/login`; unknown routes show 404.
+## Exercise 1 — Create views and routes
 
-## Recovery
-Inspect `router/index.ts` and `AppShell.vue` under `instructor/solutions/frontend/`.
+Create `src/views/LoginView.vue`, `TasksView.vue`, and `NotFoundView.vue`. In `src/router/index.ts`, define:
 
-## Expected Result
-A reusable shell with protected client-side navigation.
+| Path | View | Rule |
+|---|---|---|
+| `/` | redirect | `/tasks` |
+| `/login` | Login | public |
+| `/tasks` | Tasks | requires auth |
+| `/:pathMatch(.*)*` | Not Found | public |
+
+Use lazy imports for views.
+
+## Exercise 2 — Create the shell
+
+Create `src/components/AppShell.vue` with application name, current identity placeholder, logout button, `<main>`, and `<RouterView />`. Use semantic HTML and visible keyboard focus.
+
+## Exercise 3 — Add a temporary auth guard
+
+Create a small auth-state module. Add `meta: { requiresAuth: true }` to Tasks and a `router.beforeEach` guard that redirects unauthenticated users to `/login?redirect=/tasks`.
+
+For this lab, use a temporary boolean or stored placeholder; Lab 12 replaces it with a real session.
+
+## Exercise 4 — Verify routes
+
+Run `npm run dev`. Navigate with links (no full reload), paste `/tasks` while signed out, and visit `/does-not-exist`. Resize the browser to about 390 px wide.
+
+## Check your work
+
+Protected route redirects to Login, unknown route shows Not Found, and the layout does not overflow at narrow width.
+
+## Troubleshooting / instructor recovery
+
+Check that Vue Router is installed and `app.use(router)` runs before `mount`. Inspect `router/index.ts` and `AppShell.vue` in `instructor/solutions/frontend/`.
+
+## Expected result
+
+A reusable shell with predictable client-side navigation.
