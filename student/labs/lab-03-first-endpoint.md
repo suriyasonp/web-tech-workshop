@@ -18,7 +18,7 @@ namespace TaskApi.Models;
 
 public enum TaskItemStatus
 {
-    Todo,
+    ToDo,
     InProgress,
     Done
 }
@@ -65,7 +65,7 @@ var sampleTasks = new[]
         2,
         "Test API",
         null,
-        "Todo",
+        "ToDo",
         "Medium",
         null)
 };
