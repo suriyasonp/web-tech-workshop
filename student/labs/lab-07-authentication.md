@@ -15,7 +15,48 @@ Continue from Lab 06.
 dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 10.*
 ```
 
-Add a development-only JWT section to `appsettings.Development.json` with issuer, audience, and a long signing key. Configure `AddAuthentication().AddJwtBearer(...)`, add authorization, then ensure middleware order is:
+Add a development-only JWT section to `appsettings.Development.json`:
+
+```json
+{
+  "Jwt": {
+    "Issuer": "WebTechWorkshop",
+    "Audience": "WebTechWorkshop.Frontend",
+    "Key": "development-only-signing-key-change-me-1234567890"
+  }
+}
+```
+
+Configure authentication in `Program.cs`:
+
+```csharp
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+
+var jwt = builder.Configuration.GetSection("Jwt");
+var key = Encoding.UTF8.GetBytes(jwt["Key"]!);
+
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwt["Issuer"],
+            ValidAudience = jwt["Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(key)
+        };
+    });
+
+builder.Services.AddAuthorization();
+```
+
+Middleware order:
 
 ```csharp
 app.UseAuthentication();
@@ -24,18 +65,68 @@ app.UseAuthorization();
 
 ## Exercise 2 — Create login
 
-Create `Contracts/LoginRequest.cs`, `LoginResponse.cs`, and `Services/TokenService.cs`. Map `POST /api/auth/login`. For the workshop accounts, include name and role claims and return token, expiry, display name, and role.
+Create request/response contracts:
+
+```csharp
+public sealed record LoginRequest(string Username, string Password);
+
+public sealed record LoginResponse(
+    string Token,
+    DateTime ExpiresAt,
+    string DisplayName,
+    string Role);
+```
+
+A token contains identity and role claims:
+
+```csharp
+var claims = new[]
+{
+    new Claim(ClaimTypes.Name, username),
+    new Claim(ClaimTypes.Role, role)
+};
+```
+
+Map the login endpoint:
+
+```csharp
+app.MapPost("/api/auth/login", (LoginRequest request, TokenService tokens) =>
+{
+    // Workshop-only account check goes here.
+    var result = tokens.Create(request.Username, "Instructor");
+    return Results.Ok(result);
+});
+```
+
+Use the demo-account logic from the instructor solution rather than storing production credentials in source code.
 
 ## Exercise 3 — Protect routes
 
-Apply `.RequireAuthorization()` to the Task route group. Apply `.RequireAuthorization(policy => policy.RequireRole("Instructor"))` to DELETE.
+```csharp
+var tasks = app.MapGroup("/api/tasks")
+    .RequireAuthorization();
+
+tasks.MapDelete("/{id:int}", DeleteTask)
+    .RequireAuthorization(policy => policy.RequireRole("Instructor"));
+```
 
 ## Exercise 4 — Test identity and permission
 
-1. Anonymous GET → 401.
-2. Login as Instructor; copy the token.
-3. Send `Authorization: Bearer <token>`; GET → 200, DELETE → 204/404.
-4. Repeat with Student; DELETE → 403.
+```http
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "instructor",
+  "password": "workshop"
+}
+
+###
+GET {{host}}/api/tasks
+Authorization: Bearer {{token}}
+```
+
+Test anonymous GET → 401, Instructor DELETE → 204/404, and Student DELETE → 403.
 
 ## Validation
 
