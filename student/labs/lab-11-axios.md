@@ -3,7 +3,7 @@
 **Duration:** 50 minutes  
 **Goal:** Put HTTP configuration behind a typed service and display all request states.
 
-## Starting point
+## Starting Point
 
 Continue from Lab 10. Start the backend at `http://localhost:5080` and frontend at `http://localhost:5173` in separate terminals.
 
@@ -35,11 +35,11 @@ In `TasksView.vue`, add `tasks`, `loading`, and `error` state. Load tasks in `on
 - empty state when the array is empty;
 - a list/table when tasks exist.
 
-## Check your work
+## Validation
 
 Backend data appears. Stop the backend and refresh: the page shows a useful error instead of remaining blank or loading forever.
 
-## Troubleshooting / instructor recovery
+## Recovery
 
 Open Browser DevTools → Network. Confirm the URL starts with `http://localhost:5080/api`. If blocked by CORS, configure the backend for the exact frontend origin. Trace TasksView → taskService → api in `instructor/solutions/frontend/`.
 
