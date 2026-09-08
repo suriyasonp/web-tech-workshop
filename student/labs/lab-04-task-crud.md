@@ -11,7 +11,49 @@ Continue from Lab 03 in `student/starter/backend/TaskApi`.
 
 Create `Contracts/CreateTaskRequest.cs` and `UpdateTaskRequest.cs` with title, description, status, priority, and optional due date. Create `Services/TaskService.cs` using a private `List<TaskResponse>` and an incrementing ID.
 
-Implement methods: `GetAll`, `GetById`, `Create`, `Update`, and `Delete`. Register it in `Program.cs`:
+Example request DTO:
+
+```csharp
+namespace TaskApi.Contracts;
+
+public sealed record CreateTaskRequest(
+    string Title,
+    string? Description,
+    string Status,
+    string Priority,
+    DateOnly? DueDate);
+```
+
+A minimal in-memory service can start like this:
+
+```csharp
+using TaskApi.Contracts;
+
+namespace TaskApi.Services;
+
+public sealed class TaskService
+{
+    private readonly List<TaskResponse> _tasks = [];
+    private int _nextId = 1;
+
+    public IReadOnlyList<TaskResponse> GetAll() => _tasks;
+
+    public TaskResponse? GetById(int id) =>
+        _tasks.FirstOrDefault(task => task.Id == id);
+
+    public TaskResponse Create(CreateTaskRequest request)
+    {
+        var task = new TaskResponse(
+            _nextId++, request.Title, request.Description,
+            request.Status, request.Priority, request.DueDate);
+
+        _tasks.Add(task);
+        return task;
+    }
+}
+```
+
+Add `Update` and `Delete` using the same list. Register the service in `Program.cs`:
 
 ```csharp
 builder.Services.AddSingleton<TaskService>();
@@ -29,11 +71,49 @@ Map these routes, preferably in `Endpoints/TaskEndpoints.cs`:
 | PUT | `/api/tasks/{id:int}` | 200 or 404 |
 | DELETE | `/api/tasks/{id:int}` | 204 or 404 |
 
-For POST use `Results.Created($"/api/tasks/{created.Id}", created)`.
+Example endpoint group:
+
+```csharp
+var tasks = app.MapGroup("/api/tasks");
+
+tasks.MapGet("/", (TaskService service) =>
+    Results.Ok(service.GetAll()));
+
+tasks.MapGet("/{id:int}", (int id, TaskService service) =>
+    service.GetById(id) is { } task
+        ? Results.Ok(task)
+        : Results.NotFound());
+
+tasks.MapPost("/", (CreateTaskRequest request, TaskService service) =>
+{
+    var created = service.Create(request);
+    return Results.Created($"/api/tasks/{created.Id}", created);
+});
+```
+
+Add PUT and DELETE following the same pattern.
 
 ## Exercise 3 — Run the complete flow
 
 Add requests to `TaskApi.http` in this order: POST, GET by returned ID, PUT, GET collection, DELETE, GET deleted ID. Separate requests with `###`.
+
+```http
+@host = http://localhost:5080
+
+POST {{host}}/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Finish Lab 04",
+  "description": "Build CRUD endpoints",
+  "status": "Todo",
+  "priority": "High",
+  "dueDate": "2026-09-12"
+}
+
+###
+GET {{host}}/api/tasks
+```
 
 ## Validation
 
