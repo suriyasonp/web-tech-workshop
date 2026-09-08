@@ -16,20 +16,61 @@ Create `Validation/TaskRequestValidator.cs`. Return field errors when:
 - description exceeds 1000 characters;
 - status or priority is not a defined enum value.
 
+Example validator shape:
+
+```csharp
+namespace TaskApi.Validation;
+
+public static class TaskRequestValidator
+{
+    public static Dictionary<string, string[]> Validate(TaskRequest request)
+    {
+        var errors = new Dictionary<string, string[]>();
+
+        if (string.IsNullOrWhiteSpace(request.Title))
+            errors["Title"] = ["Title is required."];
+        else if (request.Title.Length > 120)
+            errors["Title"] = ["Title must be 120 characters or fewer."];
+
+        if (request.Description?.Length > 1000)
+            errors["Description"] = ["Description must be 1000 characters or fewer."];
+
+        if (!Enum.IsDefined(request.Status))
+            errors["Status"] = ["Status is invalid."];
+
+        if (!Enum.IsDefined(request.Priority))
+            errors["Priority"] = ["Priority is invalid."];
+
+        return errors;
+    }
+}
+```
+
 Keep validation reusable for POST and PUT.
 
 ## Exercise 2 — Return standard error shapes
 
-At POST and PUT, return:
+At POST and PUT:
 
 ```csharp
-return Results.ValidationProblem(errors);
+var errors = TaskRequestValidator.Validate(request);
+if (errors.Count > 0)
+    return Results.ValidationProblem(errors);
 ```
 
-For a missing task use `Results.NotFound()`. Register problem details:
+For a missing task use:
+
+```csharp
+return Results.NotFound();
+```
+
+Register problem details and exception handling in `Program.cs`:
 
 ```csharp
 builder.Services.AddProblemDetails();
+
+var app = builder.Build();
+
 app.UseExceptionHandler();
 app.UseStatusCodePages();
 ```
@@ -38,10 +79,23 @@ app.UseStatusCodePages();
 
 Add requests to `TaskApi.http`:
 
-1. POST with `"title": "   "`.
-2. POST with an invalid status.
-3. GET `/api/tasks/999999`.
-4. POST a valid task to confirm the happy path still works.
+```http
+POST {{host}}/api/tasks
+Content-Type: application/json
+
+{
+  "title": "   ",
+  "description": null,
+  "status": "Todo",
+  "priority": "Medium",
+  "dueDate": null
+}
+
+###
+GET {{host}}/api/tasks/999999
+```
+
+Also test an invalid status and then a valid POST to confirm the happy path still works.
 
 ## Validation
 
