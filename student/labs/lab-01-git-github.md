@@ -3,7 +3,7 @@
 **Duration:** 25 minutes  
 **Goal:** Create a branch, commit one safe change, and push it to GitHub.
 
-## Before you begin
+## Starting Point
 
 Complete Lab 00. Replace `<name>` below with a short lowercase name, for example `student/fore`.
 
