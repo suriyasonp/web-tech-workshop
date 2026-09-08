@@ -27,7 +27,54 @@ Open the URL printed by Vite (normally `http://localhost:5173`).
 
 ## Exercise 2 — Clean and type the app
 
-Remove demo components/assets that are no longer imported. Create `src/types.ts` containing `TaskStatus`, `TaskPriority`, Task, create/update request, and login response types matching the API JSON.
+Remove demo components/assets that are no longer imported. Create `src/types.ts`:
+
+```ts
+export type TaskStatus = 'Todo' | 'InProgress' | 'Done'
+export type TaskPriority = 'Low' | 'Medium' | 'High'
+
+export interface Task {
+  id: number
+  title: string
+  description: string | null
+  status: TaskStatus
+  priority: TaskPriority
+  dueDate: string | null
+}
+
+export interface TaskRequest {
+  title: string
+  description: string | null
+  status: TaskStatus
+  priority: TaskPriority
+  dueDate: string | null
+}
+
+export interface LoginResponse {
+  token: string
+  expiresAt: string
+  displayName: string
+  role: string
+}
+```
+
+Keep the root application minimal:
+
+```vue
+<!-- src/App.vue -->
+<template>
+  <RouterView />
+</template>
+```
+
+```ts
+// src/main.ts
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+
+createApp(App).use(router).mount('#app')
+```
 
 Create `.env.example`:
 
