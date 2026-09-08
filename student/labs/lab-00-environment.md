@@ -3,6 +3,10 @@
 **Duration:** 30–45 minutes  
 **Goal:** Install the workshop tools, clone the repository, and prove that your computer is ready.
 
+## Starting Point
+
+Use a workshop computer where you can install developer tools. If tools are already installed, verify them before changing anything.
+
 ## Prerequisites and official downloads
 
 Install these before the workshop. Use only the official pages.
@@ -59,13 +63,13 @@ Windows PowerShell (Git Bash is required for the validator):
 & "C:\Program Files\Git\bin\bash.exe" scripts/validate-materials.sh
 ```
 
-## Check your work
+## Validation
 
 - Every version command succeeds.
 - The repository is open in VS Code.
 - The final line is `Workshop materials validated`.
 
-## Troubleshooting / instructor recovery
+## Recovery
 
 Restart the terminal after installation. Confirm you installed the **.NET SDK**, not only the runtime. If a command still fails, show the instructor the exact command and complete error; do not reinstall everything.
 
