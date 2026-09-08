@@ -3,7 +3,7 @@
 **Duration:** 35 minutes  
 **Goal:** Create and run the backend with a health endpoint.
 
-## Starting point
+## Starting Point
 
 Return to `main` and create the application in `student/starter/backend`.
 
@@ -53,11 +53,11 @@ Invoke-RestMethod http://localhost:5080/health
 
 Stop the server with `Ctrl+C`.
 
-## Check your work
+## Validation
 
 The response is HTTP 200 with `{"status":"ok"}`. Run `dotnet build`; it must finish with zero errors.
 
-## Troubleshooting / instructor recovery
+## Recovery
 
 If port 5080 is busy, stop the old `dotnet` process rather than changing the workshop port. Compare only `TaskApi.csproj`, `Program.cs`, and `launchSettings.json` with `instructor/solutions/backend/TaskApi/`.
 
