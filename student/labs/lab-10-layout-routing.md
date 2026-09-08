@@ -3,7 +3,7 @@
 **Duration:** 45 minutes  
 **Goal:** Create an application shell and protected browser routes.
 
-## Starting point
+## Starting Point
 
 Continue in `student/starter/frontend` from Lab 09.
 
@@ -34,11 +34,11 @@ For this lab, use a temporary boolean or stored placeholder; Lab 12 replaces it 
 
 Run `npm run dev`. Navigate with links (no full reload), paste `/tasks` while signed out, and visit `/does-not-exist`. Resize the browser to about 390 px wide.
 
-## Check your work
+## Validation
 
 Protected route redirects to Login, unknown route shows Not Found, and the layout does not overflow at narrow width.
 
-## Troubleshooting / instructor recovery
+## Recovery
 
 Check that Vue Router is installed and `app.use(router)` runs before `mount`. Inspect `router/index.ts` and `AppShell.vue` in `instructor/solutions/frontend/`.
 
