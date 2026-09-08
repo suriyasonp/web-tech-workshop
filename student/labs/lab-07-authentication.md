@@ -65,40 +65,55 @@ app.UseAuthorization();
 
 ## Exercise 2 — Create login
 
-Create request/response contracts:
+Create `Contracts/AuthContracts.cs`:
 
 ```csharp
-public sealed record LoginRequest(string Username, string Password);
+namespace TaskApi.Contracts;
+
+public sealed record LoginRequest(string? Username, string? Password);
 
 public sealed record LoginResponse(
     string Token,
-    DateTime ExpiresAt,
-    string DisplayName,
-    string Role);
+    string Username,
+    string Role,
+    DateTimeOffset ExpiresAt);
 ```
 
-A token contains identity and role claims:
+Create a workshop-only login endpoint:
 
 ```csharp
-var claims = new[]
-{
-    new Claim(ClaimTypes.Name, username),
-    new Claim(ClaimTypes.Role, role)
-};
-```
+private static readonly Dictionary<string, (string Password, string Role)> DemoUsers =
+    new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["student"] = ("Workshop2026!", "Student"),
+        ["instructor"] = ("Workshop2026!", "Instructor")
+    };
 
-Map the login endpoint:
-
-```csharp
 app.MapPost("/api/auth/login", (LoginRequest request, TokenService tokens) =>
 {
-    // Workshop-only account check goes here.
-    var result = tokens.Create(request.Username, "Instructor");
-    return Results.Ok(result);
-});
+    if (string.IsNullOrWhiteSpace(request.Username) ||
+        string.IsNullOrWhiteSpace(request.Password))
+    {
+        return Results.ValidationProblem(
+            new Dictionary<string, string[]>
+            {
+                ["credentials"] = ["Username and password are required."]
+            });
+    }
+
+    if (!DemoUsers.TryGetValue(request.Username, out var user) ||
+        user.Password != request.Password)
+    {
+        return Results.Problem(
+            title: "Invalid username or password.",
+            statusCode: 401);
+    }
+
+    return Results.Ok(tokens.Create(request.Username, user.Role));
+}).AllowAnonymous();
 ```
 
-Use the demo-account logic from the instructor solution rather than storing production credentials in source code.
+The token service should include name and role claims.
 
 ## Exercise 3 — Protect routes
 
@@ -118,7 +133,7 @@ Content-Type: application/json
 
 {
   "username": "instructor",
-  "password": "workshop"
+  "password": "Workshop2026!"
 }
 
 ###
