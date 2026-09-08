@@ -3,7 +3,7 @@
 **Duration:** 55 minutes  
 **Goal:** Login, retain a valid workshop session, attach its Bearer token, and logout.
 
-## Starting point
+## Starting Point
 
 Continue from Lab 11 with both applications running.
 
@@ -33,11 +33,11 @@ Only add it when a token exists. In the response interceptor, clear session and 
 
 Logout must clear storage and route to `/login`. Test: login → refresh → Tasks remains available → logout → Tasks redirects. Temporarily change stored expiry to the past and refresh.
 
-## Check your work
+## Validation
 
 Valid session survives refresh; expired session does not; logout removes the token; authenticated Task GET returns 200.
 
-## Troubleshooting / instructor recovery
+## Recovery
 
 Inspect `sessionStorage`, the request's Authorization header, and API response in DevTools. Compare `authService`, `authStore`, and router guard with `instructor/solutions/frontend/`.
 
