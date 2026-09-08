@@ -40,11 +40,26 @@ public enum TaskPriority
 Create `Contracts/TaskResponse.cs`:
 
 ```csharp
+using TaskApi.Models;
+
 namespace TaskApi.Contracts;
 
 public sealed record TaskResponse(
-    int Id, string Title, string? Description,
-    string Status, string Priority, DateOnly? DueDate);
+    int Id,
+    string Title,
+    string? Description,
+    TaskItemStatus Status,
+    TaskPriority Priority,
+    DateOnly? DueDate);
+```
+
+Configure enum values to appear as readable JSON strings in `Program.cs`:
+
+```csharp
+using System.Text.Json.Serialization;
+
+builder.Services.ConfigureHttpJsonOptions(options =>
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 ```
 
 ## Exercise 2 — Map the collection route
@@ -52,21 +67,24 @@ public sealed record TaskResponse(
 In `Program.cs`, create two sample `TaskResponse` values:
 
 ```csharp
+using TaskApi.Contracts;
+using TaskApi.Models;
+
 var sampleTasks = new[]
 {
     new TaskResponse(
         1,
         "Prepare workshop",
         "Review backend lab material",
-        "InProgress",
-        "High",
+        TaskItemStatus.InProgress,
+        TaskPriority.High,
         new DateOnly(2026, 9, 12)),
     new TaskResponse(
         2,
         "Test API",
         null,
-        "ToDo",
-        "Medium",
+        TaskItemStatus.ToDo,
+        TaskPriority.Medium,
         null)
 };
 ```
@@ -99,7 +117,7 @@ curl http://localhost:5080/api/tasks
 
 ## Validation
 
-Response is 200 and contains a JSON array. Each object contains camel-case `title`, `status`, and `priority`.
+Response is 200 and contains a JSON array. Each object contains camel-case `title`, `status`, and `priority`; enum values appear as `ToDo`, `InProgress`, `Done`, `Low`, `Medium`, or `High`.
 
 ## Think about it
 
