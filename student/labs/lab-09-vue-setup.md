@@ -27,22 +27,23 @@ Open the URL printed by Vite (normally `http://localhost:5173`).
 
 ## Exercise 2 — Clean and type the app
 
-Remove demo components/assets that are no longer imported. Create `src/types.ts`:
+Remove demo components/assets that are no longer imported. Create `src/types.ts` matching the API contract:
 
 ```ts
-export type TaskStatus = 'Todo' | 'InProgress' | 'Done'
+export type TaskStatus = 'ToDo' | 'InProgress' | 'Done'
 export type TaskPriority = 'Low' | 'Medium' | 'High'
 
-export interface Task {
+export interface TaskItem {
   id: number
   title: string
   description: string | null
   status: TaskStatus
   priority: TaskPriority
   dueDate: string | null
+  createdAt: string
 }
 
-export interface TaskRequest {
+export interface TaskInput {
   title: string
   description: string | null
   status: TaskStatus
@@ -52,9 +53,9 @@ export interface TaskRequest {
 
 export interface LoginResponse {
   token: string
+  username: string
+  role: 'Student' | 'Instructor'
   expiresAt: string
-  displayName: string
-  role: string
 }
 ```
 
