@@ -3,7 +3,7 @@
 **Duration:** 60 minutes  
 **Goal:** Replace the temporary list with a SQLite database.
 
-## Starting point
+## Starting Point
 
 Continue from Lab 04. Stop the API before changing packages or migrations.
 
@@ -44,11 +44,11 @@ dotnet run
 
 Create a task, stop and restart the API, then GET the collection.
 
-## Check your work
+## Validation
 
 The new task remains after restart. `Migrations/` and `tasks.db` exist. Do not commit `tasks.db`.
 
-## Troubleshooting / instructor recovery
+## Recovery
 
 Run EF commands from the folder containing `TaskApi.csproj`. For a broken practice schema, stop the API and delete only `student/starter/backend/TaskApi/tasks.db`, then run `dotnet ef database update`. Compare with `instructor/solutions/backend/`.
 
