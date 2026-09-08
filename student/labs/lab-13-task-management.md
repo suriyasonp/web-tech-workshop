@@ -9,10 +9,16 @@ Continue from Lab 12 and login as Instructor.
 
 ## Exercise 1 — List and filter
 
-Render title, status, priority, and due date. Add filter buttons for All, Todo, In Progress, and Done. Use a computed value; filtering must not mutate the server array.
+Render title, status, priority, and due date. Add filter buttons for All, To Do, In Progress, and Done. Use a computed value; filtering must not mutate the server array.
 
 ```ts
 const filter = ref<'All' | TaskStatus>('All')
+const filterOptions: Array<'All' | TaskStatus> = [
+  'All',
+  'ToDo',
+  'InProgress',
+  'Done',
+]
 
 const filteredTasks = computed(() => {
   if (filter.value === 'All') return tasks.value
@@ -27,22 +33,22 @@ Create `src/components/TaskForm.vue` with title, description, status, priority, 
 ```vue
 <script setup lang="ts">
 import { reactive } from 'vue'
-import type { TaskRequest } from '../types'
+import type { TaskInput } from '../types'
 
 const props = defineProps<{
-  initial?: TaskRequest
+  initial?: TaskInput
   busy?: boolean
 }>()
 
 const emit = defineEmits<{
-  submit: [value: TaskRequest]
+  submit: [value: TaskInput]
   cancel: []
 }>()
 
-const form = reactive<TaskRequest>({
+const form = reactive<TaskInput>({
   title: props.initial?.title ?? '',
   description: props.initial?.description ?? null,
-  status: props.initial?.status ?? 'Todo',
+  status: props.initial?.status ?? 'ToDo',
   priority: props.initial?.priority ?? 'Medium',
   dueDate: props.initial?.dueDate ?? null,
 })
@@ -60,12 +66,12 @@ Add labels, required state, maximum lengths, disabled/busy state, and Cancel.
 Create:
 
 ```ts
-async function createTask(request: TaskRequest) {
+async function createTask(input: TaskInput) {
   saving.value = true
   try {
-    await taskService.create(request)
+    await taskService.create(input)
     await loadTasks()
-    showForm.value = false
+    dialogOpen.value = false
   } finally {
     saving.value = false
   }
@@ -75,12 +81,12 @@ async function createTask(request: TaskRequest) {
 Update:
 
 ```ts
-async function updateTask(id: number, request: TaskRequest) {
+async function updateTask(id: number, input: TaskInput) {
   saving.value = true
   try {
-    await taskService.update(id, request)
+    await taskService.update(id, input)
     await loadTasks()
-    editing.value = null
+    editingTask.value = null
   } finally {
     saving.value = false
   }
@@ -90,7 +96,7 @@ async function updateTask(id: number, request: TaskRequest) {
 Delete:
 
 ```ts
-async function deleteTask(task: Task) {
+async function deleteTask(task: TaskItem) {
   if (!window.confirm(`Delete "${task.title}"?`)) return
 
   await taskService.remove(task.id)
@@ -107,7 +113,7 @@ For HTTP 400 Validation Problem responses, extract field errors:
 ```ts
 import axios from 'axios'
 
-function getValidationErrors(error: unknown) {
+function getValidationErrors(error: unknown): Record<string, string[]> {
   if (!axios.isAxiosError(error) || error.response?.status !== 400) {
     return {}
   }
@@ -122,7 +128,7 @@ Show field messages near the form and a short summary. Keep network/server failu
 
 ```vue
 <button
-  v-if="authStore.session?.role === 'Instructor'"
+  v-if="authStore.canDelete.value"
   type="button"
   @click="deleteTask(task)"
 >
