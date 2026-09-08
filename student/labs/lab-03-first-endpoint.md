@@ -3,7 +3,7 @@
 **Duration:** 35 minutes  
 **Goal:** Connect `GET /api/tasks` to a typed response.
 
-## Starting point
+## Starting Point
 
 Continue in `student/starter/backend/TaskApi` from Lab 02.
 
@@ -45,7 +45,7 @@ Accept: application/json
 
 Use **Send Request** in VS Code REST Client, or use `curl http://localhost:5080/api/tasks`.
 
-## Check your work
+## Validation
 
 Response is 200 and contains a JSON array. Each object contains camel-case `title`, `status`, and `priority`.
 
@@ -53,7 +53,7 @@ Response is 200 and contains a JSON array. Each object contains camel-case `titl
 
 Why return a DTO instead of exposing a database entity? The API contract can remain stable while storage changes.
 
-## Troubleshooting / instructor recovery
+## Recovery
 
 Build first with `dotnet build`. Compare the contract with `docs/architecture.md` and only the relevant files in `instructor/solutions/backend/`.
 
