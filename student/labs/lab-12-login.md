@@ -9,13 +9,89 @@ Continue from Lab 11 with both applications running.
 
 ## Exercise 1 — Add auth service and state
 
-Create `src/services/authService.ts` to POST `/api/auth/login`. Create `src/stores/authStore.ts` (a simple reactive module is sufficient) that stores token, expiry, display name, and role.
+Create `src/services/authService.ts`:
 
-Persist one JSON session value in `sessionStorage`. On startup, restore it only when its expiry is in the future.
+```ts
+import { api } from './api'
+import type { LoginResponse } from '../types'
+
+export const authService = {
+  async login(username: string, password: string): Promise<LoginResponse> {
+    const response = await api.post<LoginResponse>('/api/auth/login', {
+      username,
+      password,
+    })
+
+    return response.data
+  },
+}
+```
+
+Create a small reactive auth store in `src/stores/authStore.ts`:
+
+```ts
+import { reactive } from 'vue'
+
+const STORAGE_KEY = 'workshop-session'
+
+interface Session {
+  token: string
+  expiresAt: string
+  displayName: string
+  role: string
+}
+
+function loadSession(): Session | null {
+  const raw = sessionStorage.getItem(STORAGE_KEY)
+  if (!raw) return null
+
+  const session = JSON.parse(raw) as Session
+  if (new Date(session.expiresAt).getTime() <= Date.now()) {
+    sessionStorage.removeItem(STORAGE_KEY)
+    return null
+  }
+
+  return session
+}
+
+export const authStore = reactive({
+  session: loadSession() as Session | null,
+
+  setSession(session: Session) {
+    this.session = session
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(session))
+  },
+
+  clear() {
+    this.session = null
+    sessionStorage.removeItem(STORAGE_KEY)
+  },
+})
+```
 
 ## Exercise 2 — Build Login view
 
-Add username/password fields, submit button, busy state, and an accessible error alert. On success, save the session and route to the `redirect` query value or `/tasks`.
+The submit handler should keep UI state explicit:
+
+```ts
+const busy = ref(false)
+const error = ref('')
+
+async function submit() {
+  busy.value = true
+  error.value = ''
+
+  try {
+    const session = await authService.login(username.value, password.value)
+    authStore.setSession(session)
+    await router.push(String(route.query.redirect ?? '/tasks'))
+  } catch {
+    error.value = 'Login failed. Check your username and password.'
+  } finally {
+    busy.value = false
+  }
+}
+```
 
 Do not display the password in logs or error messages.
 
@@ -24,14 +100,43 @@ Do not display the password in logs or error messages.
 In the Axios request interceptor:
 
 ```ts
-config.headers.Authorization = `Bearer ${authStore.token}`
+api.interceptors.request.use((config) => {
+  const token = authStore.session?.token
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+
+  return config
+})
 ```
 
-Only add it when a token exists. In the response interceptor, clear session and route to Login for 401. Avoid redirect loops when the failed request is the login request.
+Handle 401 centrally:
+
+```ts
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401 && !error.config?.url?.includes('/api/auth/login')) {
+      authStore.clear()
+      await router.push('/login')
+    }
+
+    return Promise.reject(error)
+  },
+)
+```
 
 ## Exercise 4 — Logout and expiry test
 
-Logout must clear storage and route to `/login`. Test: login → refresh → Tasks remains available → logout → Tasks redirects. Temporarily change stored expiry to the past and refresh.
+```ts
+async function logout() {
+  authStore.clear()
+  await router.push('/login')
+}
+```
+
+Test: login → refresh → Tasks remains available → logout → Tasks redirects. Temporarily change stored expiry to the past and refresh.
 
 ## Validation
 
