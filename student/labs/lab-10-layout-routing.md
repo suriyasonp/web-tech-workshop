@@ -9,26 +9,78 @@ Continue in `student/starter/frontend` from Lab 09.
 
 ## Exercise 1 — Create views and routes
 
-Create `src/views/LoginView.vue`, `TasksView.vue`, and `NotFoundView.vue`. In `src/router/index.ts`, define:
+Create `src/views/LoginView.vue`, `TasksView.vue`, and `NotFoundView.vue`. In `src/router/index.ts`:
 
-| Path | View | Rule |
-|---|---|---|
-| `/` | redirect | `/tasks` |
-| `/login` | Login | public |
-| `/tasks` | Tasks | requires auth |
-| `/:pathMatch(.*)*` | Not Found | public |
+```ts
+import { createRouter, createWebHistory } from 'vue-router'
 
-Use lazy imports for views.
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    { path: '/', redirect: '/tasks' },
+    {
+      path: '/login',
+      component: () => import('../views/LoginView.vue'),
+    },
+    {
+      path: '/tasks',
+      component: () => import('../views/TasksView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      component: () => import('../views/NotFoundView.vue'),
+    },
+  ],
+})
+
+export default router
+```
 
 ## Exercise 2 — Create the shell
 
-Create `src/components/AppShell.vue` with application name, current identity placeholder, logout button, `<main>`, and `<RouterView />`. Use semantic HTML and visible keyboard focus.
+Create `src/components/AppShell.vue`:
+
+```vue
+<script setup lang="ts">
+import { RouterView } from 'vue-router'
+</script>
+
+<template>
+  <div class="app-shell">
+    <header>
+      <strong>Task Management</strong>
+      <button type="button">Logout</button>
+    </header>
+
+    <main>
+      <RouterView />
+    </main>
+  </div>
+</template>
+```
+
+Use semantic HTML and visible keyboard focus.
 
 ## Exercise 3 — Add a temporary auth guard
 
-Create a small auth-state module. Add `meta: { requiresAuth: true }` to Tasks and a `router.beforeEach` guard that redirects unauthenticated users to `/login?redirect=/tasks`.
+For this lab, use a temporary boolean or stored placeholder:
 
-For this lab, use a temporary boolean or stored placeholder; Lab 12 replaces it with a real session.
+```ts
+const isAuthenticated = () =>
+  sessionStorage.getItem('workshop-auth') === 'true'
+
+router.beforeEach((to) => {
+  if (to.meta.requiresAuth && !isAuthenticated()) {
+    return {
+      path: '/login',
+      query: { redirect: to.fullPath },
+    }
+  }
+})
+```
+
+Lab 12 replaces this placeholder with a real JWT-backed session.
 
 ## Exercise 4 — Verify routes
 
