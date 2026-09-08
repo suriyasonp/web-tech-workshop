@@ -3,7 +3,7 @@
 **Duration:** 75 minutes  
 **Goal:** Complete role-aware create, read, update, and delete from the browser.
 
-## Starting point
+## Starting Point
 
 Continue from Lab 12 and login as Instructor.
 
@@ -33,11 +33,11 @@ For HTTP 400 Validation Problem responses, show field messages near the form and
 
 Show Delete only when `authStore.role === 'Instructor'`. Login as Student and confirm it is hidden. Remember: the API's 403 rule is security; hiding a button only improves UX.
 
-## Check your work
+## Validation
 
 Instructor completes CRUD. Data remains after refresh. Student can view/edit as designed but cannot delete, including a manually sent DELETE request.
 
-## Troubleshooting / instructor recovery
+## Recovery
 
 Use Network request/response bodies to compare the Vue payload with API DTOs. Inspect `TasksView.vue` and `TaskForm.vue` in `instructor/solutions/frontend/`.
 
