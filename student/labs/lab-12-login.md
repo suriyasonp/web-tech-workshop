@@ -27,46 +27,52 @@ export const authService = {
 }
 ```
 
-Create a small reactive auth store in `src/stores/authStore.ts`:
+Create a small reactive auth store in `src/stores/auth.ts`:
 
 ```ts
-import { reactive } from 'vue'
+import { computed, reactive } from 'vue'
+import type { LoginResponse } from '../types'
 
-const STORAGE_KEY = 'workshop-session'
+const STORAGE_KEY = 'workshop-auth'
 
-interface Session {
-  token: string
-  expiresAt: string
-  displayName: string
-  role: string
-}
-
-function loadSession(): Session | null {
+function loadSession(): LoginResponse | null {
   const raw = sessionStorage.getItem(STORAGE_KEY)
   if (!raw) return null
 
-  const session = JSON.parse(raw) as Session
-  if (new Date(session.expiresAt).getTime() <= Date.now()) {
+  try {
+    const session = JSON.parse(raw) as LoginResponse
+
+    if (new Date(session.expiresAt).getTime() <= Date.now()) {
+      sessionStorage.removeItem(STORAGE_KEY)
+      return null
+    }
+
+    return session
+  } catch {
     sessionStorage.removeItem(STORAGE_KEY)
     return null
   }
-
-  return session
 }
 
-export const authStore = reactive({
-  session: loadSession() as Session | null,
+const state = reactive<{ session: LoginResponse | null }>({
+  session: loadSession(),
+})
 
-  setSession(session: Session) {
-    this.session = session
+export const authStore = {
+  session: computed(() => state.session),
+  isAuthenticated: computed(() => state.session !== null),
+  canDelete: computed(() => state.session?.role === 'Instructor'),
+
+  setSession(session: LoginResponse) {
+    state.session = session
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(session))
   },
 
-  clear() {
-    this.session = null
+  logout() {
+    state.session = null
     sessionStorage.removeItem(STORAGE_KEY)
   },
-})
+}
 ```
 
 ## Exercise 2 — Build Login view
@@ -101,7 +107,7 @@ In the Axios request interceptor:
 
 ```ts
 api.interceptors.request.use((config) => {
-  const token = authStore.session?.token
+  const token = authStore.session.value?.token
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
@@ -117,8 +123,11 @@ Handle 401 centrally:
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response?.status === 401 && !error.config?.url?.includes('/api/auth/login')) {
-      authStore.clear()
+    if (
+      error.response?.status === 401 &&
+      !error.config?.url?.includes('/api/auth/login')
+    ) {
+      authStore.logout()
       await router.push('/login')
     }
 
@@ -131,7 +140,7 @@ api.interceptors.response.use(
 
 ```ts
 async function logout() {
-  authStore.clear()
+  authStore.logout()
   await router.push('/login')
 }
 ```
