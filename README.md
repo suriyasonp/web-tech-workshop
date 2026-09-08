@@ -18,6 +18,7 @@ bash scripts/validate-materials.sh
 ```
 
 Students start at [student/README.md](student/README.md). Instructors use [instructor/README.md](instructor/README.md), which includes the complete runnable solution and delivery material.
+The published student lab reader is available at [suriyasonp.github.io/web-tech-workshop](https://suriyasonp.github.io/web-tech-workshop/).
 
 ## Repository Map
 

@@ -1,5 +1,19 @@
 # Hands-on Labs
 
+## HTML Reader
+
+Students can read the published labs at
+[suriyasonp.github.io/web-tech-workshop](https://suriyasonp.github.io/web-tech-workshop/).
+The site is updated after a push to `main` that changes this directory.
+
+For local preview, open [the lab reader](index.html) and run from the repository root:
+`python -m http.server 8000`, then visit
+`http://localhost:8000/student/labs/`. VS Code Live Server also works.
+The reader loads Markdown directly, so edits appear after refreshing. An internet
+connection is required for the pinned Markdown renderer and HTML sanitizer.
+Share a specific page with `?lab=lab-00-environment.md` and a heading with its
+table-of-contents link. Opening `index.html` directly via `file://` is not supported.
+
 The two-day workshop builds one continuous Task Management System on `main`. Every lab defines a starting point, concrete steps, an observable validation, and a recovery path through `instructor/solutions/`.
 
 ## Day 1 — Foundation and Backend
