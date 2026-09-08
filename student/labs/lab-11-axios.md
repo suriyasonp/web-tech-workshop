@@ -33,21 +33,21 @@ Create `src/services/taskService.ts`:
 
 ```ts
 import { api } from './api'
-import type { Task, TaskRequest } from '../types'
+import type { TaskInput, TaskItem } from '../types'
 
 export const taskService = {
-  async getAll(): Promise<Task[]> {
-    const response = await api.get<Task[]>('/api/tasks')
+  async getAll(): Promise<TaskItem[]> {
+    const response = await api.get<TaskItem[]>('/api/tasks')
     return response.data
   },
 
-  async create(request: TaskRequest): Promise<Task> {
-    const response = await api.post<Task>('/api/tasks', request)
+  async create(input: TaskInput): Promise<TaskItem> {
+    const response = await api.post<TaskItem>('/api/tasks', input)
     return response.data
   },
 
-  async update(id: number, request: TaskRequest): Promise<Task> {
-    const response = await api.put<Task>(`/api/tasks/${id}`, request)
+  async update(id: number, input: TaskInput): Promise<TaskItem> {
+    const response = await api.put<TaskItem>(`/api/tasks/${id}`, input)
     return response.data
   },
 
@@ -67,9 +67,9 @@ In `TasksView.vue`:
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { taskService } from '../services/taskService'
-import type { Task } from '../types'
+import type { TaskItem } from '../types'
 
-const tasks = ref<Task[]>([])
+const tasks = ref<TaskItem[]>([])
 const loading = ref(false)
 const error = ref('')
 
