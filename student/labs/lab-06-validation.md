@@ -1,22 +1,60 @@
-# Lab 06 — Validation and Error Handling
+# Lab 06 — Add Validation and Predictable Errors
 
-## Objective
-Return predictable failures that a frontend can use.
+**Duration:** 40 minutes  
+**Goal:** Give clients consistent 400, 404, and 500 responses.
 
-## Starting Point
-Continue from your Lab 05 backend under `student/starter/backend`.
+## Starting point
 
-## Steps
-1. Require a non-blank title.
-2. Limit title to 120 and description to 1000 characters.
-3. Validate status and priority enum values.
-4. Return validation problems for HTTP 400 and problem details for 404/500.
+Continue from the persistent API built in Lab 05.
 
-## Validation
-POST an empty title and confirm HTTP 400 with `errors.Title`; request an unknown id and confirm HTTP 404.
+## Exercise 1 — Create one validator
 
-## Recovery
-Inspect `TaskRequestValidator` and endpoint responses under `instructor/solutions/backend/`.
+Create `Validation/TaskRequestValidator.cs`. Return field errors when:
 
-## Expected Result
-The API failure contract is consistent and actionable.
+- title is null, empty, or whitespace;
+- title exceeds 120 characters;
+- description exceeds 1000 characters;
+- status or priority is not a defined enum value.
+
+Keep validation reusable for POST and PUT.
+
+## Exercise 2 — Return standard error shapes
+
+At POST and PUT, return:
+
+```csharp
+return Results.ValidationProblem(errors);
+```
+
+For a missing task use `Results.NotFound()`. Register problem details:
+
+```csharp
+builder.Services.AddProblemDetails();
+app.UseExceptionHandler();
+app.UseStatusCodePages();
+```
+
+## Exercise 3 — Prove each failure
+
+Add requests to `TaskApi.http`:
+
+1. POST with `"title": "   "`.
+2. POST with an invalid status.
+3. GET `/api/tasks/999999`.
+4. POST a valid task to confirm the happy path still works.
+
+## Check your work
+
+Blank title returns 400 with `errors.Title`; missing ID returns 404; the API remains running after bad input.
+
+## Think about it
+
+Validation errors are expected client mistakes; exceptions are unexpected failures. They should not share an ambiguous response.
+
+## Troubleshooting / instructor recovery
+
+Set a breakpoint in the validator and send one invalid request. Inspect `TaskRequestValidator` and endpoint responses under `instructor/solutions/backend/`.
+
+## Expected result
+
+The frontend can display actionable API failures without parsing custom strings.
