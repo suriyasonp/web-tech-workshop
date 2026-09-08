@@ -3,7 +3,7 @@
 **Duration:** 60 minutes  
 **Goal:** Implement the REST create, read, update, and delete flow before adding a database.
 
-## Starting point
+## Starting Point
 
 Continue from Lab 03 in `student/starter/backend/TaskApi`.
 
@@ -35,11 +35,11 @@ For POST use `Results.Created($"/api/tasks/{created.Id}", created)`.
 
 Add requests to `TaskApi.http` in this order: POST, GET by returned ID, PUT, GET collection, DELETE, GET deleted ID. Separate requests with `###`.
 
-## Check your work
+## Validation
 
 Create → read → update → delete succeeds. The final GET returns 404. POST returns 201 and a `Location` header.
 
-## Troubleshooting / instructor recovery
+## Recovery
 
 If data disappears when restarting, that is expected in this lab. Trace endpoint → service → list. Compare only matching route and service methods with `instructor/solutions/backend/`.
 
