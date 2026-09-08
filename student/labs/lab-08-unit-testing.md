@@ -21,11 +21,68 @@ dotnet add TaskApi.Tests package Microsoft.EntityFrameworkCore.Sqlite --version 
 
 ## Exercise 2 — Add focused tests
 
-Add validator tests for a valid request and blank title. Add service tests using an **open in-memory SQLite connection** for create, missing update, and delete. Keep each test Arrange → Act → Assert.
+A validator test:
+
+```csharp
+[Fact]
+public void Blank_title_is_invalid()
+{
+    var request = new TaskRequest(
+        "  ", null, TaskItemStatus.ToDo, TaskPriority.Medium, null);
+
+    var errors = TaskRequestValidator.Validate(request);
+
+    Assert.Contains("Title", errors.Keys);
+}
+```
+
+A service test should use an open SQLite in-memory connection:
+
+```csharp
+var connection = new SqliteConnection("DataSource=:memory:");
+await connection.OpenAsync();
+
+var options = new DbContextOptionsBuilder<AppDbContext>()
+    .UseSqlite(connection)
+    .Options;
+
+await using var db = new AppDbContext(options);
+await db.Database.EnsureCreatedAsync();
+```
+
+Keep each test Arrange → Act → Assert.
 
 ## Exercise 3 — Add API integration tests
 
-Use `WebApplicationFactory<Program>`. Make `Program` visible to tests with `public partial class Program { }`. Test login, authenticated CRUD, Student delete restriction, and persistence across a new scope.
+Make `Program` visible to tests:
+
+```csharp
+public partial class Program { }
+```
+
+Create a factory-based test:
+
+```csharp
+public sealed class ApiIntegrationTests
+    : IClassFixture<WebApplicationFactory<Program>>
+{
+    private readonly HttpClient _client;
+
+    public ApiIntegrationTests(WebApplicationFactory<Program> factory)
+    {
+        _client = factory.CreateClient();
+    }
+
+    [Fact]
+    public async Task Anonymous_task_request_is_unauthorized()
+    {
+        var response = await _client.GetAsync("/api/tasks");
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+    }
+}
+```
+
+Add tests for login, authenticated CRUD, Student delete restriction, and persistence across a new scope.
 
 ## Exercise 4 — Run and diagnose
 
