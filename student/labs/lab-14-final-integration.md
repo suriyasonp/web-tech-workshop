@@ -1,24 +1,74 @@
-# Lab 14 — Final Integration
+# Lab 14 — Verify and Demonstrate the Complete Application
 
-## Objective
-Prove that the full application is repeatable and demo-ready.
+**Duration:** 45 minutes  
+**Goal:** Prove the project works from clean dependencies through the complete user flow.
 
-## Starting Point
-Continue from your Lab 13 application under `student/starter/` on `main`.
+## Starting point
 
-## Steps
-1. Run backend tests and frontend production build.
-2. Start both applications using `docs/run-guide.md`.
-3. Complete login → list → create → edit → refresh → delete.
-4. Repeat as Student and verify Delete is unavailable and forbidden by the API.
-5. Run the Playwright flow or inspect the latest CI browser evidence.
-6. Complete a short retrospective: keep, improve, try next.
+Continue from Lab 13. Save work with a commit before final verification.
 
-## Validation
-All three CI jobs pass and screenshots show login, task list, created task, and completed task.
+## Exercise 1 — Run local quality gates
 
-## Recovery
-Compare only the failed segment with `instructor/solutions/`, then repeat that segment in your student application.
+From repository root, macOS:
 
-## Expected Result
-A clean-clone, test-backed, browser-verified workshop application.
+```bash
+bash scripts/validate-materials.sh
+dotnet test student/starter/backend/WebTechWorkshop.sln
+cd student/starter/frontend
+npm ci
+npm run build
+```
+
+Windows PowerShell:
+
+```powershell
+& "C:\Program Files\Git\bin\bash.exe" scripts/validate-materials.sh
+dotnet test student/starter/backend/WebTechWorkshop.sln
+Set-Location student/starter/frontend
+npm ci
+npm run build
+```
+
+## Exercise 2 — Run the acceptance journey
+
+Start API and frontend using `docs/run-guide.md`. As Instructor:
+
+1. login;
+2. view the seeded list;
+3. create a uniquely named task;
+4. edit its status to Done;
+5. refresh and prove persistence;
+6. delete it.
+
+Repeat as Student and verify Delete is hidden and a direct DELETE receives 403.
+
+## Exercise 3 — Browser evidence
+
+Run the documented Playwright flow when available, or open the latest GitHub Actions browser artifact. Confirm screenshots for Login, list, created task, and completed task.
+
+## Exercise 4 — Push and inspect CI
+
+```bash
+git status
+git add student/starter
+git commit -m "feat: complete workshop task application"
+git push
+```
+
+Open the GitHub Actions run and wait for material validation, backend, and frontend/E2E jobs.
+
+## Check your work
+
+Local gates pass, the acceptance journey passes, and GitHub Actions is green.
+
+## Troubleshooting / instructor recovery
+
+Identify the first failing layer: material → compile → unit/integration → frontend build → browser flow. Compare only that segment with `instructor/solutions/`, repeat the failed check, then rerun the full gate.
+
+## Expected result
+
+A clean-install, test-backed, browser-verified application ready to demonstrate.
+
+## Retrospective
+
+Write one item each: **Keep**, **Improve**, and **Try next**.
